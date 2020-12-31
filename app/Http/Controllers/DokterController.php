@@ -93,7 +93,10 @@ class DokterController extends Controller
         //data dokter
         $dokter = Dokter::all();
 
-        return response($dokter, 200);
+        return response()->json([
+            "status" => 200,
+            "data" => compact('dokter'),
+        ], 200);
     }
 
     //view dokter where id_dokter
@@ -104,11 +107,14 @@ class DokterController extends Controller
             //data dokter berdasarkan id dokter
             $dokter = Dokter::find($id);
 
-            return response($dokter, 200);
+            return response()->json([
+                "status" => 200,
+                "data" => compact('dokter'),
+            ], 200);
         }
         else{
             return response()->json([
-                "error" => 404,
+                "status" => 404,
                 "message" => "dokter not found"
             ], 404);
         }
@@ -122,11 +128,14 @@ class DokterController extends Controller
             //data dokter berdasarkan id poli
             $dokter = Dokter::all()->where('poli_id', $id);
 
-            return response($dokter, 200);
+            return response()->json([
+                "status" => 200,
+                "data" => compact('dokter'),
+            ], 200);
         }
         else{
             return response()->json([
-                "error" => 404,
+                "status" => 404,
                 "message" => "dokter not found"
             ]);
         }

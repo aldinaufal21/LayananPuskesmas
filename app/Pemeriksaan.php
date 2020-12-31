@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Pemeriksaan extends Model
 {
     protected $table = "pemeriksaan";
-    protected $fillable = ['id_poli', 'keluhan', 'id_pasien', 'status_pemeriksaan', 'status'];
+    protected $fillable = ['id_poli', 'keluhan', 'id_pasien', 'hasil_pemeriksaan', 'status_pemeriksaan', 'status'];
 
     public function antrian()
     {

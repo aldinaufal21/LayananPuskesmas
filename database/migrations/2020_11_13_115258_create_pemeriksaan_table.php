@@ -18,9 +18,10 @@ class CreatePemeriksaanTable extends Migration
             $table->unsignedBigInteger('id_poli');
             $table->string('keluhan');
             $table->unsignedBigInteger('id_pasien');
-            $table->integer('antrian')->nullable();
+            $table->string('hasil_pemeriksaan')->nullable();
             $table->integer('status_pemeriksaan')->nullable();
             $table->integer('status');
+            $table->integer('cetak')->nullable();
             $table->timestamps();
 
             $table->foreign('id_poli')->references('id')->on('poli');

@@ -34,6 +34,37 @@ class PasienController extends Controller
 
         return view('pasien.detail', compact('pasien', 'pemeriksaan', 'jumlah'));
     }
+
+    //view form edit
+    public function formEdit($id)
+    {
+        //data pasien berdasarkan id pasien
+        $pasien = Pasien::find($id);
+
+        return view('pasien.edit', compact('pasien'));
+    }
+
+    //update pasien
+    public function update(Request $request, $id)
+    {
+        //data pasien berdasarkan id pasien
+        $pasien = Pasien::find($id);
+
+        //update pasien berdasarkan request data
+        $pasien->nama = $request->nama;
+        $pasien->tgl_lahir = $request->tgl_lahir;
+        $pasien->jenis_kelamin = $request->jenis_kelamin;
+        $pasien->berat_badan = $request->berat_badan;
+        $pasien->tinggi_badan = $request->tinggi_badan;
+        $pasien->gol_darah = $request->gol_darah;
+        $pasien->no_hp = $request->no_hp;
+        $pasien->alamat = $request->alamat;
+
+        //update pasien
+        $pasien->save();
+
+        return redirect('/pasien')->with('success', 'Update pasien Berhasil!');
+    }
     
     // controller pasien API
 
@@ -43,7 +74,10 @@ class PasienController extends Controller
         //data pasien 
         $pasien = Pasien::all();
         
-        return response($pasien, 200);
+        return response()->json([
+            "status" => 200,
+            "data" => compact('pasien'),
+        ], 200);
     }
 
     // view pasien
@@ -54,11 +88,14 @@ class PasienController extends Controller
             //data pasien berdasarkan id pasien
             $pasien = Pasien::find($id);
 
-            return response($pasien, 200);
+            return response()->json([
+                "status" => 200,
+                "data" => compact('pasien'),
+            ], 200);
         }
         else{
             return response()->json([
-                "error" => 404,
+                "status" => 404,
                 "message" => "pasien not found"
             ], 404);
         }
@@ -82,6 +119,7 @@ class PasienController extends Controller
         ]);
 
         return response()->json([
+            "status" => 201,
             "message" => "Pasien record created"
         ], 201);
     }
@@ -108,12 +146,13 @@ class PasienController extends Controller
             $pasien->save();
 
             return response()->json([
+                "status" => 200,
                 "message" => "records Update Pasien Successfully"
             ], 200);
         }
         else{
             return response()->json([
-                "error" => 404,
+                "status" => 404,
                 "message" => "Pasien Not Found"
             ], 404);
         }
@@ -130,13 +169,37 @@ class PasienController extends Controller
             $pasien->delete();
 
             return response()->json([
+                "status" => 202,
                 "message" => "records pasien deleted"
             ], 202);
         }
         else{
             return response()->json([
-                "error" => 404,
+                "status" => 404,
                 "message" => "Pasien not found"
+            ], 404);
+        }
+    }
+
+    public function login(Request $request)
+    {
+        $nohp = $request->no_hp;
+        $password = $request->password;
+
+        $pasien = Pasien::where('no_hp', $nohp)->first();
+
+        if ($pasien) {
+            if (Hash::check($password, $pasien->password)) {
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'login successfull',
+                    'data' => compact('pasien'),
+                ], 200);
+            }
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'no_hp or password wrong!',
             ], 404);
         }
     }

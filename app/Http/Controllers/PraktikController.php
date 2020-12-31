@@ -96,6 +96,9 @@ class PraktikController extends Controller
         //data praktik berdasarkan tanggal mulai hari ini
         $praktik = Praktik::whereDate('mulai','=',$today)->get();
 
-        return response($praktik, 200);
+        return response()->json([
+            "status" => 200,
+            "data" => compact('praktik'),
+        ], 200);
     }
 }

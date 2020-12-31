@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Antrian;
+use App\Pemeriksaan;
+use App\Praktik;
 use Illuminate\Http\Request;
 
 class AntrianController extends Controller
@@ -34,5 +36,52 @@ class AntrianController extends Controller
         $request->session()->put('antrian', 'tutup');
 
         return redirect('/')->with('danger', 'Antrian ditutup!');
+    }
+
+    public function selesai($id)
+    {
+        $antrian = Antrian::find($id);
+
+        $antrian->status = 2;
+
+        $antrian->save();
+
+        return redirect('/antrian')->with('success','antrian selesai');
+    }
+
+    //controller Antrian API
+
+    //lihat antrian berdasarkan id antrian
+    public function viewAntrian($id)
+    {
+
+        if (Pemeriksaan::where('id_pasien', $id)->exists()) {
+            $pemeriksaan = Pemeriksaan::where('id_pasien', $id)->first();
+            $status = 1;
+
+            if (Antrian::where('id_pemeriksaan', $pemeriksaan->id)->where('status', $status)->exists()) {
+                $antrian = Antrian::where('id_pemeriksaan', $pemeriksaan->id)->where('status', $status)->first();
+
+                $today = date("Y-m-d");
+                $praktik = Praktik::whereDate('mulai', '=', $today)->first();
+
+                return response()->json([
+                    "status" => 200,
+                    "data" => compact('antrian'),
+                ], 200);
+
+            } else {
+                return response()->json([
+                    "status" => 404,
+                    "message" => "antrian not found"
+                ], 404);
+            }    
+        } else {
+            return response()->json([
+                "status" => 404,
+                "message" => "user not found"
+            ], 404);
+        }
+
     }
 }

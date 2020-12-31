@@ -32,6 +32,12 @@
  
     @endif  
 
+    @if ($jumlah <= 0)
+        
+    @else
+    <a href="/pemeriksaan/export" class="btn btn-primary mb-3"><i class="fa fa-print"></i> Export Pemeriksaan</a>
+    @endif
+
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold">Data Pemeriksaan</h6>
@@ -42,6 +48,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Tanggal</th>
                             <th>Nama Pasien</th>
                             <th>Nama Poli</th>
                             <th>Keluhan</th>
@@ -53,6 +60,7 @@
                     <tfoot>
                         <tr>
                             <th>No</th>
+                            <th>Tanggal</th>
                             <th>Nama Pasien</th>
                             <th>Nama Poli</th>
                             <th>Keluhan</th>
@@ -68,6 +76,7 @@
                         @foreach ($pemeriksaan as $data)
                             <tr>
                                 <td>{{ $no++ }}</td>
+                                <td>{{ $data->created_at }}</td>
                                 <td>{{ $data->pasien->nama }}</td>
                                 <td>{{ $data->poli->nama_poli }}</td>
                                 <td>{{ $data->keluhan }}</td>
@@ -108,14 +117,15 @@
                                             <i class="fas fa-check"></i> approve
                                         </a>
                                     @elseif($data->status == 2)
-                                        <a href="/pemeriksaan/pdf/{{ $data->id }}" class="btn btn-warning btn-sm">
-                                            <i class="fas fa-book"></i> Lihat PDF
-                                        </a>
                                         <a href="/pemeriksaan/kirimobat/{{ $data->id }}" class="btn btn-info btn-sm">
                                             <i class="fas fa-capsules"></i> Kirim Obat
                                         </a> 
                                         <a href="/pemeriksaan/batal/{{ $data->id }}" class="btn btn-danger btn-sm">
                                             <i class="fas fa-ban"></i> Batalkan Pemeriksaan
+                                        </a>
+                                    @elseif($data->status == 3)
+                                        <a href="/pemeriksaan/selesai/{{ $data->id }}" class="btn btn-success btn-sm">
+                                            <i class="fas fa-check"></i> selesai
                                         </a>  
                                     @endif
                                 </td>

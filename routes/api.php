@@ -26,6 +26,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //view poli
 Route::get('/poli', 'PoliController@viewPoli');
 
+//antrian
+//view antrian
+Route::get('/antrian/{id}', 'AntrianController@viewAntrian');
+
 //praktik
 //view praktik
 Route::get('/praktik', "PraktikController@viewPraktik");
@@ -43,12 +47,14 @@ Route::get('/dokter/poli/{id}', 'DokterController@viewDokterPoli');
 Route::get('/pasien', 'PasienController@viewPasien');
 //view pasien by id
 Route::get('/pasien/id/{id}', 'PasienController@viewPasienID');
-//add pasien
-Route::post('/pasien/add', 'PasienController@addPasien');
 //update pasien
 Route::post('/pasien/update/{id}', 'PasienController@updatePasien');
 //delete pasien
 Route::get('/pasien/delete/{id}', 'PasienController@deletePasien');
+//register pasien
+Route::post('/register', 'PasienController@addPasien');
+//login pasien
+Route::post('/login', 'PasienController@login');
 
 //pemeriksaan
 //view pemeriksaan by id pasien

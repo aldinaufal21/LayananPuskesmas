@@ -82,6 +82,9 @@ class PoliController extends Controller
         //data poli
         $poli = Poli::all();
 
-        return response($poli, 200);
+        return response()->json([
+            "status" => 200,
+            "data" => compact('poli'),
+        ], 200);
     }
 }

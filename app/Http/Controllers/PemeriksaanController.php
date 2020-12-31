@@ -3,12 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Antrian;
+use App\Exports\PemeriksaanExport;
 use App\Pemeriksaan;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PemeriksaanController extends Controller
 {
     //controller web
+
+    //export pemeriksaan
+    public function export()
+    {
+        return Excel::download(new PemeriksaanExport, 'pemeriksaan.xlsx');
+    }
 
     //view pemeriksaan
     public function index()
@@ -16,7 +24,13 @@ class PemeriksaanController extends Controller
         //data pemeriksaan
         $pemeriksaan = Pemeriksaan::all()->sortDesc();
 
-        return view('pemeriksaan.index', compact('pemeriksaan'));
+        $today = date("Y-m-d");
+        $cetak = NULL;
+        $status = 2;
+        $data = Pemeriksaan::whereDate('created_at', "=",$today)->where('cetak', $cetak)->limit(10)->get();
+        $jumlah = $data->count();
+        
+        return view('pemeriksaan.index', compact('pemeriksaan', 'jumlah'));
     }
 
     //view form approve pemeriksaan
@@ -50,7 +64,7 @@ class PemeriksaanController extends Controller
             //update pemeriksaan
             $pemeriksaan->save();
 
-            return redirect('/pemeriksaan')->with('success', 'pemeriksaan berhasil di Approve!, silahkan buka PDF surat konsultasi dokter');
+            return redirect('/pemeriksaan')->with('success', 'pemeriksaan berhasil di Approve!, silahkan klik export pemeriksaan untuk men-download surat konsultasi dokter');
         }
         //jika status pemeriksaan yang dipilih adalah 2 (status pemeriksaan berat) 
         elseif($request->status_pemeriksaan == '2'){
@@ -75,6 +89,7 @@ class PemeriksaanController extends Controller
                         "antrian" => 1,
                         "id_pemeriksaan" => $pemeriksaan->id,
                         "id_poli" => $pemeriksaan->id_poli,
+                        "status" => 1,
                     ]);   
                 } 
                 //jika jumlah antrian berdasarkan tanggal hari ini dan id poli itu lebih dari nol
@@ -85,6 +100,7 @@ class PemeriksaanController extends Controller
                         "antrian" => $countAntrian+1,
                         "id_pemeriksaan" => $pemeriksaan->id,
                         "id_poli" => $pemeriksaan->id_poli,
+                        "status" => 1,
                     ]);  
                 }
 
@@ -98,6 +114,36 @@ class PemeriksaanController extends Controller
         }
     }
 
+    //kirim obat
+    public function kirimobat($id)
+    {
+        //data pemeriksaan berdasarkan id Pemeriksaan
+        $pemeriksaan = Pemeriksaan::find($id);
+
+        //update status menjadi 3 (kirim obat)
+        $pemeriksaan->status = 3;
+
+        //update pemeriksaan
+        $pemeriksaan->save();
+
+        return redirect('/pemeriksaan')->with('success', 'status kirim obat berhasil !');
+    }
+
+    //kirim obat
+    public function selesai($id)
+    {
+        //data pemeriksaan berdasarkan id Pemeriksaan
+        $pemeriksaan = Pemeriksaan::find($id);
+
+        //update status menjadi 4 (selesai)
+        $pemeriksaan->status = 4;
+
+        //update pemeriksaan
+        $pemeriksaan->save();
+
+        return redirect('/pemeriksaan')->with('success', 'pemeriksaan selesai !');
+    }
+
     //batalkan pemeriksaan
     public function batal($id)
     {
@@ -106,6 +152,9 @@ class PemeriksaanController extends Controller
 
         //update status menjadi 6 (batalkan pemeriksaan)
         $pemeriksaan->status = 6;
+
+        //update cetak menjadi null 
+        $pemeriksaan->cetak = 1;
 
         //update data pemeriksaan
         $pemeriksaan->save();
@@ -123,16 +172,20 @@ class PemeriksaanController extends Controller
             //data pemeriksaan berdasarkan id pasien
             $pemeriksaan = Pemeriksaan::where('id_pasien', $id)->get();
 
-            return response($pemeriksaan, 200);
+            return response()->json([
+                "status" => 200,
+                "data" => compact('pemeriksaan'),
+            ], 200);
         }
         else{
             return response()->json([
-                "error" => 404,
+                "status" => 404,
                 "message" => "pemeriksaan not found"
             ], 404);
         }
     }
 
+    // API
     //add data pemeriksaan
     public function addPemeriksaan(Request $request)
     {
@@ -142,11 +195,14 @@ class PemeriksaanController extends Controller
             "id_poli" => $request->id_poli,
             "keluhan" => $request->keluhan,
             "id_pasien" => $request->id_pasien,
+            "hasil_pemeriksaan" => NULL,
             "status_pemeriksaan" => NULL,
-            "status" => 1
+            "status" => 1,
+            "cetak" => 1,
         ]);
 
         return response()->json([
+            "status" => 201,
             "message" => "Pemeriksaan record created"
         ], 201);
     }
@@ -162,12 +218,13 @@ class PemeriksaanController extends Controller
             $pemeriksaan->delete();
 
             return response()->json([
+                "status" => 202,
                 "message" => "records pemeriksaan deleted"
             ], 202);
         }
         else{
             return response()->json([
-                "error" => 404,
+                "status" => 404,
                 "message" => "Pemeriksaan not found"
             ], 404);
         }

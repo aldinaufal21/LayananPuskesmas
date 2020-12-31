@@ -5,7 +5,16 @@
 @endsection
 
 @section('content')
-    @if (session('success'))
+
+    @if($jumlah_praktik == 0)
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        Isi terlebih dahulu jadwal praktik hari ini, <a href="/praktik" class="text text-danger">klik disini</a>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    @elseif (session('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         {{ session('success') }}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">

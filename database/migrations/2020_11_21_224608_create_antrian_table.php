@@ -19,6 +19,7 @@ class CreateAntrianTable extends Migration
             $table->integer('antrian');
             $table->unsignedBigInteger('id_pemeriksaan');
             $table->unsignedBigInteger('id_poli');
+            $table->integer('status');
             $table->timestamps();
 
             $table->foreign('id_pemeriksaan')->references('id')->on('pemeriksaan');

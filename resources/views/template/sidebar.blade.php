@@ -75,6 +75,28 @@
             <i class="fas fa-fw fa-hospital"></i>
             <span>Kelola Praktik</span></a>
     </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Report Data
+    </div>
+
+    <!-- Nav Item - Kelola Dokter -->
+    <li class="nav-item {{ (request()->is('report/pemeriksaan*')) ? 'active' : '' }}">
+        <a class="nav-link" href="/report/pemeriksaan">
+            <i class="fas fa-file"></i>
+            <span>Report Data Pemeriksaan</span></a>
+    </li>
+
+    <!-- Nav Item - Kelola Poli -->
+    <li class="nav-item {{ (request()->is('report/dokter*')) ? 'active' : '' }}">
+        <a class="nav-link" href="/report/dokter">
+            <i class="fas fa-file"></i>
+            <span>Report Data Dokter</span></a>
+    </li>
     
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

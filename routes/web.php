@@ -1,5 +1,6 @@
 <?php
 
+use Facade\FlareClient\Report;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -32,7 +33,9 @@ Route::group(['prefix'=>'poli', 'middleware'=>'auth'], function()
 Route::group(['prefix'=>'pasien', 'middleware'=>'auth'], function()
 {
     Route::get('/', 'PasienController@index');
+    Route::get('/edit/{id}', 'PasienController@formEdit');
     Route::get('/detail/{id}', 'PasienController@detail');
+    Route::post('/update/{id}', 'PasienController@update');
 });
 
 //route pemeriksaan
@@ -42,7 +45,10 @@ Route::group(['prefix'=>'pemeriksaan', 'middleware'=>'auth'], function()
     Route::get('/detail/{id}', 'PemeriksaanController@detail');
     Route::get('/edit/{id}', 'PemeriksaanController@formEdit');
     Route::post('/update/{id}', 'PemeriksaanController@update');
+    Route::get('/kirimobat/{id}', 'PemeriksaanController@kirimobat');
     Route::get('/batal/{id}', 'PemeriksaanController@batal');
+    Route::get('/selesai/{id}', 'PemeriksaanController@selesai');
+    Route::get('/export', 'PemeriksaanController@export');
 });
 
 //route dokter
@@ -73,6 +79,21 @@ Route::group(['prefix'=>'antrian', 'middleware'=>'auth'], function()
     Route::get('/', 'AntrianController@index'); 
     Route::get('/buka', 'AntrianController@antrianBuka');
     Route::get('/tutup', 'AntrianController@antrianTutup');
+    Route::get('/selesai/{id}', 'AntrianController@selesai');
+});
+
+//route report
+Route::group(['prefix' => 'report', 'middleware' => 'auth'], function()
+{
+    //form report pemeriksaan
+    Route::get('/pemeriksaan', 'ReportController@pemeriksaan');
+    //form report dokter
+    Route::get('/dokter', 'ReportController@dokter');
+
+    //export pemeriksaan
+    Route::post('/pemeriksaan/export', 'ReportController@exportPemeriksaan');
+    //export dokter
+    Route::post('/dokter/export', 'ReportController@exportDokter');
 });
 
 Auth::routes();

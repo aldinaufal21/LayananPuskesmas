@@ -6,6 +6,7 @@ use App\Dokter;
 use App\Pasien;
 use App\Pemeriksaan;
 use App\Poli;
+use App\Praktik;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -32,10 +33,14 @@ class DashboardController extends Controller
         $pemeriksaan = Pemeriksaan::all()->where('status', $pengajuan);
         $jumlah_pemeriksaan = $pemeriksaan->count();
 
+        $today = date('Y-m-d');
+        $praktik = Praktik::whereDate('mulai', '=', $today)->get();
+        $jumlah_praktik = $praktik->count();
+
         //data antrian
         $antrian = $request->session()->get('antrian');
 
-        return view('dashboard.index', compact('jumlah_dokter', 'jumlah_pasien', 'jumlah_poli', 'jumlah_pemeriksaan', 'antrian'));
+        return view('dashboard.index', compact('jumlah_dokter', 'jumlah_pasien', 'jumlah_poli', 'jumlah_pemeriksaan', 'jumlah_praktik', 'antrian'));
     }
 
 }

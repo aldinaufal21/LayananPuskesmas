@@ -61,6 +61,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Tanggal</th>
                             <th>Poli</th>
                             <th>Keluhan</th>
                             <th>Status</th>
@@ -69,6 +70,7 @@
                     <tfoot>
                         <tr>
                             <th>No</th>
+                            <th>Tanggal</th>
                             <th>Poli</th>
                             <th>Keluhan</th>
                             <th>Status</th>
@@ -81,6 +83,7 @@
                         @foreach ($pemeriksaan as $data)
                             <tr>
                                 <td>{{ $no++ }}</td>
+                                <td>{{ $data->created_at }}</td>
                                 <td>{{ $data->poli->nama_poli }}</td>
                                 <td>{{ $data->keluhan }}</td>
                                 <td>

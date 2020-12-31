@@ -70,12 +70,13 @@
                                 <td>{{ $data->poli->kode_antrian }}-{{ $data->antrian }}</td>
                                 <td>{{ $data->pemeriksaan->pasien->nama }}</td>
                                 <td>
-                                    <a href="/antrian/edit/{{ $data->id }}" class="btn btn-warning btn-sm">
-                                        <i class="fas fa-edit"></i> Edit
+                                    @if ($data->status == 1)
+                                    <a href="/antrian/selesai/{{ $data->id }}" class="btn btn-info btn-sm">
+                                        <i class="fas fa-check"></i> selesai
                                     </a>
-                                    <a href="#" data-toggle="modal" data-target="#deletemodal" class="btn btn-danger btn-sm">
-                                        <i class="fas fa-trash"></i> Hapus
-                                    </a>
+                                    @else
+                                        <span class="badge badge-success">selesai</span>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

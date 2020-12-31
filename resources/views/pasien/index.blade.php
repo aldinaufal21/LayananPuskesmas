@@ -76,6 +76,9 @@
                                     <a href="/pasien/detail/{{ $data->id }}" class="btn btn-primary btn-sm">
                                         <i class="fas fa-eye"></i> Lihat Data
                                     </a>
+                                    <a href="/pasien/edit/{{ $data->id }}" class="btn btn-warning btn-sm">
+                                        <i class="fas fa-edit"></i> Edit Data
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach
