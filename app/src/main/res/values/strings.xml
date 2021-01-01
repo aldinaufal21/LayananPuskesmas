@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">puskesmas mulya harja</string>
+    
+    <string-array name="jenis_kelamin">
+        <item>Laki-Laki</item>
+        <item>Perempuan</item>
+    </string-array>
+
+    <string-array name="golongan_darah">
+        <item>Golongan darah</item>
+        <item>-</item>
+        <item>A</item>
+        <item>B</item>
+        <item>AB</item>
+        <item>O</item>
+    </string-array>
+
+    <string-array name="poli">
+        <item>Pilih Poli</item>
+    </string-array>
+</resources>

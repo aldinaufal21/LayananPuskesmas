@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <ImageView
+        android:layout_width="202dp"
+        android:layout_height="87dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/logo_utama" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="370dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/kotak_user"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:text="Pemeriksaan"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/formGolDarah"
+            android:layout_width="390dp"
+            android:layout_height="50dp"
+            android:background="@drawable/kotak_shadow"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:entries="@array/poli" />
+
+        <EditText
+            android:id="@+id/formPassword"
+            android:layout_width="390dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/kotak_form"
+            android:drawableStart="@drawable/ic_baseline_assignment_24"
+            android:hint="Masukkan Keluhan"
+            android:inputType="textLongMessage"
+            android:drawablePadding="10dp"
+            android:paddingLeft="10dp" />
+
+        <Button
+            android:id="@+id/buttonLogin"
+            android:layout_width="200dp"
+            android:layout_height="45dp"
+            android:text="Periksa"
+            android:layout_marginTop="70dp"
+            android:layout_gravity="center"
+            android:background="@drawable/kotak_shadow" />
+
+    </LinearLayout>
+
+</LinearLayout>
