@@ -67,6 +67,7 @@
                     android:inputType="text"
                     android:paddingLeft="10dp" />
 
+
                 <Spinner
                     android:id="@+id/formJenisKelamin"
                     android:layout_width="390dp"

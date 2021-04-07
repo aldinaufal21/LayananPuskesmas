@@ -1,9 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ListPemeriksaan">
+    tools:context=".ListPemeriksaan"
+    android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="400dp"
+                android:layout_height="240dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:background="@drawable/kotak_shadow">
+
+                <ImageView
+                    android:layout_marginStart="10dp"
+                    android:id="@+id/imagePemeriksaan"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/offline_icon" />
+
+                <LinearLayout
+                    android:layout_marginStart="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="25dp">
+
+                    <TextView
+                        android:id="@+id/textPemeriksaanOffline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pemeriksaan Offline"
+                        android:textStyle="bold"
+                        android:textColor="@color/grey"
+                        android:textSize="23sp"
+                        android:paddingTop="5dp" />
+
+                    <TextView
+                        android:id="@+id/textNamePemeriksaan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NAUFAL CHANDRA"
+                        android:textColor="@color/grey"
+                        android:textSize="23sp"
+                        android:paddingTop="10dp" />
+
+                    <TextView
+                        android:id="@+id/textDatePemeriksaan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="20-01-2021"
+                        android:textColor="@color/grey"
+                        android:textSize="23sp"
+                        android:paddingTop="10dp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="10dp">
+
+                        <TextView
+                            android:id="@+id/textStatusPemeriksaan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="status : "
+                            android:textColor="@color/grey"
+                            android:textSize="23sp" />
+
+                        <TextView
+                            android:id="@+id/statusPemeriksaan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="menunggu pemeriksaan"
+                            android:textColor="@color/red"
+                            android:textStyle="bold"
+                            android:textSize="23sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="400dp"
+                android:layout_height="240dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:background="@drawable/kotak_shadow">
+
+                <ImageView
+                    android:layout_marginStart="10dp"
+                    android:id="@+id/imagePemeriksaan2"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/online_icon" />
+
+                <LinearLayout
+                    android:layout_marginStart="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="25dp">
+
+                    <TextView
+                        android:id="@+id/textPemeriksaanOffline2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pemeriksaan Offline"
+                        android:textStyle="bold"
+                        android:textColor="@color/grey"
+                        android:textSize="23sp"
+                        android:paddingTop="5dp" />
+
+                    <TextView
+                        android:id="@+id/textNamePemeriksaan2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NAUFAL CHANDRA"
+                        android:textColor="@color/grey"
+                        android:textSize="23sp"
+                        android:paddingTop="10dp" />
+
+                    <TextView
+                        android:id="@+id/textDatePemeriksaan2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="20-01-2021"
+                        android:textColor="@color/grey"
+                        android:textSize="23sp"
+                        android:paddingTop="10dp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="10dp">
+
+                        <TextView
+                            android:id="@+id/textStatusPemeriksaan2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="status : "
+                            android:textColor="@color/grey"
+                            android:textSize="23sp" />
+
+                        <TextView
+                            android:id="@+id/statusPemeriksaan2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pemeriksaan selesai"
+                            android:textColor="@color/colorPrimary"
+                            android:textStyle="bold"
+                            android:textSize="23sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

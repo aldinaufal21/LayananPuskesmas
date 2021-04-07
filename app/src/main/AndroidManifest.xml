@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ListPemeriksaan"></activity>
+        <activity android:name=".DetailPemeriksaanOfflineActivity"></activity>
+        <activity android:name=".DetailPemeriksaanOnlineActivity" />
+        <activity android:name=".KtpActivity" />
+        <activity android:name=".ListPemeriksaan" />
         <activity android:name=".PemeriksaanActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />

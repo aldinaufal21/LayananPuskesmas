@@ -17,7 +17,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="657dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/kotak_user"
         android:orientation="vertical">
@@ -40,9 +40,9 @@
             android:layout_marginTop="50dp"
             android:background="@drawable/kotak_form"
             android:drawableStart="@drawable/ic_baseline_local_phone_24"
+            android:drawablePadding="10dp"
             android:hint="No Handphone"
             android:inputType="number"
-            android:drawablePadding="10dp"
             android:paddingLeft="10dp" />
 
         <EditText
@@ -53,26 +53,26 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/kotak_form"
             android:drawableStart="@drawable/ic_baseline_vpn_key_24"
+            android:drawablePadding="10dp"
             android:hint="Password"
             android:inputType="textPassword"
-            android:drawablePadding="10dp"
             android:paddingLeft="10dp" />
 
         <Button
             android:id="@+id/buttonLogin"
             android:layout_width="200dp"
             android:layout_height="45dp"
-            android:text="Login"
-            android:layout_marginTop="25dp"
             android:layout_gravity="center"
-            android:background="@drawable/kotak_shadow" />
+            android:layout_marginTop="25dp"
+            android:background="@drawable/kotak_shadow"
+            android:text="Login" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_gravity="center"
-            android:layout_marginTop="40dp">
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"

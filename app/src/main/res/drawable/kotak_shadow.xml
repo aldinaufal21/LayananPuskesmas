@@ -5,6 +5,10 @@
         android:endColor="@color/colorPrimary"
         />
 
+    <stroke
+        android:width="1px"
+        android:color="@color/black" />
+
     <padding
         android:top="1dp"
         android:bottom="1dp"
