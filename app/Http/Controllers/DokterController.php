@@ -116,7 +116,7 @@ class DokterController extends Controller
             return response()->json([
                 "status" => 404,
                 "message" => "dokter not found"
-            ], 404);
+            ], 200);
         }
     }
 
@@ -126,7 +126,7 @@ class DokterController extends Controller
         //jika data dokter berdasarkan id_poli tersedia
         if(Dokter::where('poli_id', $id)->exists()){
             //data dokter berdasarkan id poli
-            $dokter = Dokter::all()->where('poli_id', $id);
+            $dokter = Dokter::where('poli_id', $id)->get();
 
             return response()->json([
                 "status" => 200,
@@ -137,7 +137,7 @@ class DokterController extends Controller
             return response()->json([
                 "status" => 404,
                 "message" => "dokter not found"
-            ]);
+            ], 200);
         }
     }
 }

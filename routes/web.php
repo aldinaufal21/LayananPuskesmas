@@ -45,10 +45,13 @@ Route::group(['prefix'=>'pemeriksaan', 'middleware'=>'auth'], function()
     Route::get('/detail/{id}', 'PemeriksaanController@detail');
     Route::get('/edit/{id}', 'PemeriksaanController@formEdit');
     Route::post('/update/{id}', 'PemeriksaanController@update');
+    Route::get('/berat/{id}', 'PemeriksaanController@formPemeriksaanBerat');
+    Route::post('/berat/update/{id}', 'PemeriksaanController@pemeriksaanBerat');
     Route::get('/kirimobat/{id}', 'PemeriksaanController@kirimobat');
     Route::get('/batal/{id}', 'PemeriksaanController@batal');
     Route::get('/selesai/{id}', 'PemeriksaanController@selesai');
     Route::get('/export', 'PemeriksaanController@export');
+    Route::post('/import', 'PemeriksaanController@importExcel');
 });
 
 //route dokter

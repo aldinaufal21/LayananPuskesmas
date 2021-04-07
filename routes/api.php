@@ -63,3 +63,11 @@ Route::get('/pemeriksaan/id/{id}', 'PemeriksaanController@viewPemeriksaan');
 Route::post('/pemeriksaan/add', 'PemeriksaanController@addPemeriksaan');
 //delete pemeriksaan
 Route::get('/pemeriksaan/delete/{id}', 'PemeriksaanController@deletePemeriksaan');
+
+//ktp
+//tambah ktp
+Route::post('/ktp/tambah/{id_pasien}', 'KtpController@tambahKtp');
+//update ktp
+Route::post('/ktp/update/{id}', 'KtpController@updateKtp');
+//delete ktp
+Route::get('/ktp/delete/{id}', 'KtpController@deleteKtp');

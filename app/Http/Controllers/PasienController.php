@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Ktp;
 use Illuminate\Http\Request;
 use App\Pasien;
 use App\Pemeriksaan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Traits\ImageUpload;
+use Illuminate\Support\Facades\Validator;
 
 class PasienController extends Controller
 {
+    //ambil library traits upload image
+    use ImageUpload;
+
     //controller web
 
     //view pasien
@@ -97,31 +103,52 @@ class PasienController extends Controller
             return response()->json([
                 "status" => 404,
                 "message" => "pasien not found"
-            ], 404);
+            ], 200);
         }
     }
 
     // add pasien
     public function addPasien(Request $request)
     {
-        //add data pasien
-        Pasien::create([
-            'nama' => $request->nama,
-            'alamat' => $request->alamat,
-            'jenis_kelamin' => $request->jenis_kelamin, 
-            'berat_badan' => $request->berat_badan,
-            'tinggi_badan' => $request->tinggi_badan,
-            'gol_darah' => $request->gol_darah,
-            'tgl_lahir' => $request->tgl_lahir,
-            'no_hp' => $request->no_hp,
-            'email' => $request->email,
-            'password' => Hash::make($request->password)
+        $validation = Validator::make($request->all(), [
+            'nama' => ['required'],
+            'no_hp' => ['required', 'unique:pasien', 'max:255'], 
+            'alamat' => ['required', 'max:255'], 
+            'jenis_kelamin' => ['required', 'numeric'], 
+            'berat_badan' => ['required', 'numeric'], 
+            'tinggi_badan' => ['required', 'numeric'],
+            'tgl_lahir' => ['required'], 
+            'email' => ['required', 'unique:pasien', 'email', 'string'], 
+            'password' => ['required'],
         ]);
 
-        return response()->json([
-            "status" => 201,
-            "message" => "Pasien record created"
-        ], 201);
+        if ($validation->fails()) {
+            return response()->json([
+                'status' => 401,
+                'description' => 'Error !',
+                'data' => $validation->errors(),
+            ]);
+        } 
+        else {
+            //add data pasien
+            Pasien::create([
+                'nama' => $request->nama,
+                'alamat' => $request->alamat,
+                'jenis_kelamin' => $request->jenis_kelamin, 
+                'berat_badan' => $request->berat_badan,
+                'tinggi_badan' => $request->tinggi_badan,
+                'gol_darah' => $request->gol_darah,
+                'tgl_lahir' => $request->tgl_lahir,
+                'no_hp' => $request->no_hp,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+
+            return response()->json([
+                "status" => 200,
+                "message" => "Pasien created !"
+            ], 200);
+        }
     }
 
     //update pasien
@@ -132,29 +159,50 @@ class PasienController extends Controller
             //data pasien berdasarkan id pasien
             $pasien = Pasien::find($id);
 
-            //update data pasien berdasarkan request data
-            $pasien->nama = $request->nama;
-            $pasien->alamat = $request->alamat;
-            $pasien->jenis_kelamin = $request->jenis_kelamin;
-            $pasien->berat_badan = $request->berat_badan;
-            $pasien->tinggi_badan = $request->tinggi_badan;
-            $pasien->gol_darah = $request->gol_darah;
-            $pasien->tgl_lahir = $request->tgl_lahir;
-            $pasien->no_hp = $request->no_hp;
+            $validation = Validator::make($request->all(), [
+                'nama' => ['required'],
+                'no_hp' => ['required', 'max:255'], 
+                'alamat' => ['required', 'max:255'], 
+                'jenis_kelamin' => ['required', 'numeric'], 
+                'berat_badan' => ['required', 'numeric'], 
+                'tinggi_badan' => ['required', 'numeric'],
+                'tgl_lahir' => ['required'], 
+                'email' => ['required', 'email', 'string'], 
+                'password' => ['required'],
+            ]);
 
-            //update data pasien
-            $pasien->save();
+            if ($validation->fails()) {
+                return response()->json([
+                    'status' => 401,
+                    'description' => 'Error !',
+                    'data' => $validation->errors(),
+                ]);
+            }
+            else {
+                //update data pasien berdasarkan request data
+                $pasien->nama = $request->nama;
+                $pasien->alamat = $request->alamat;
+                $pasien->jenis_kelamin = $request->jenis_kelamin;
+                $pasien->berat_badan = $request->berat_badan;
+                $pasien->tinggi_badan = $request->tinggi_badan;
+                $pasien->gol_darah = $request->gol_darah;
+                $pasien->tgl_lahir = $request->tgl_lahir;
+                $pasien->no_hp = $request->no_hp;
 
-            return response()->json([
-                "status" => 200,
-                "message" => "records Update Pasien Successfully"
-            ], 200);
+                //update data pasien
+                $pasien->save();
+
+                return response()->json([
+                    "status" => 200,
+                    "message" => "pasien updated !"
+                ], 200);
+            }
         }
         else{
             return response()->json([
                 "status" => 404,
                 "message" => "Pasien Not Found"
-            ], 404);
+            ], 200);
         }
     }
 
@@ -169,38 +217,57 @@ class PasienController extends Controller
             $pasien->delete();
 
             return response()->json([
-                "status" => 202,
-                "message" => "records pasien deleted"
-            ], 202);
+                "status" => 200,
+                "message" => "pasien deleted !"
+            ], 200);
         }
         else{
             return response()->json([
                 "status" => 404,
                 "message" => "Pasien not found"
-            ], 404);
+            ], 200);
         }
     }
 
     public function login(Request $request)
     {
-        $nohp = $request->no_hp;
-        $password = $request->password;
+        $validation = Validator::make($request->all(), [
+            'no_hp' => ['required'], 
+            'password' => ['required'],
+        ]);
 
-        $pasien = Pasien::where('no_hp', $nohp)->first();
-
-        if ($pasien) {
-            if (Hash::check($password, $pasien->password)) {
-                return response()->json([
-                    'status' => 200,
-                    'message' => 'login successfull',
-                    'data' => compact('pasien'),
-                ], 200);
-            }
-        } else {
+        if ($validation->fails()) {
             return response()->json([
-                'status' => 404,
-                'message' => 'no_hp or password wrong!',
-            ], 404);
+                'status' => 401,
+                'description' => 'Error !',
+                'data' => $validation->errors(),
+            ]);
+        }
+        else {
+            $nohp = $request->no_hp;
+            $password = $request->password;
+
+            $pasien = Pasien::where('no_hp', $nohp)->first();
+
+            if ($pasien) {
+                if (Hash::check($password, $pasien->password) == false) {
+                    return response()->json([
+                        'status' => 200,
+                        'message' => 'login successfully !',
+                        'data' => compact('pasien'),
+                    ], 200);
+                } else {
+                    return response()->json([
+                        'status' => 404,
+                        'message' => 'no_hp or password wrong!',
+                    ], 200);
+                }
+            } else {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'no_hp or password wrong!',
+                ], 200);
+            }   
         }
     }
 }

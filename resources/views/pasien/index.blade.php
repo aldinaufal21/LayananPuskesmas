@@ -46,6 +46,7 @@
                             <th>Tanggal Lahir</th>
                             <th>Alamat</th>
                             <th>No Hp</th>
+                            <th>Foto KTP</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -57,6 +58,7 @@
                             <th>Tanggal Lahir</th>
                             <th>Alamat</th>
                             <th>No Hp</th>
+                            <th>Foto KTP</th>
                             <th>Aksi</th>
                         </tr>
                     </tfoot>
@@ -68,10 +70,17 @@
                             <tr>
                                 <td>{{ $no++ }}</td>
                                 <td>{{ $data->nama }}</td>
-                                <td>{{ $data->jenis_kelamin }}</td>
+                                <td>
+                                    @if ($data->jenis_kelamin == 1)
+                                        Laki-Laki
+                                    @else
+                                        Perempuan
+                                    @endif
+                                </td>
                                 <td>{{ $data->tgl_lahir }}</td>
                                 <td>{{ $data->alamat }}</td>
                                 <td>{{ $data->no_hp }}</td>
+                                <td><img src="{{ $data->foto }}" width="200"></td>
                                 <td>
                                     <a href="/pasien/detail/{{ $data->id }}" class="btn btn-primary btn-sm">
                                         <i class="fas fa-eye"></i> Lihat Data

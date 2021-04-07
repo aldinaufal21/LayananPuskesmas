@@ -67,7 +67,7 @@
                                 <td>{{ $no++ }}</td>
                                 <td>{{ $data->tanggal }}</td>
                                 <td>{{ $data->pemeriksaan->poli->nama_poli }}</td>
-                                <td>{{ $data->poli->kode_antrian }}-{{ $data->antrian }}</td>
+                                <td>{{ $data->antrian }}</td>
                                 <td>{{ $data->pemeriksaan->pasien->nama }}</td>
                                 <td>
                                     @if ($data->status == 1)

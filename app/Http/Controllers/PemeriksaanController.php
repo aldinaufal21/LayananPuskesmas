@@ -4,18 +4,43 @@ namespace App\Http\Controllers;
 
 use App\Antrian;
 use App\Exports\PemeriksaanExport;
+use App\Http\Controllers\Traits\ExcelUpload;
+use App\Imports\PemeriksaanImport;
 use App\Pemeriksaan;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Excel as MaatwebsiteExcel;
 use Maatwebsite\Excel\Facades\Excel;
 
 class PemeriksaanController extends Controller
 {
+    use ExcelUpload;
     //controller web
 
     //export pemeriksaan
     public function export()
     {
         return Excel::download(new PemeriksaanExport, 'pemeriksaan.xlsx');
+    }
+
+    public function importExcel(Request $request)
+    {
+        // validasi
+		$this->validate($request, [
+			'excel' => 'required|mimes:csv,xls,xlsx'
+		]);
+
+        // menangkap file excel
+		$file = $request->file('excel');
+ 
+		// membuat nama file unik
+		$nama_file = rand().$file->getClientOriginalName();
+ 
+		// upload ke folder file_siswa di dalam folder public
+		$file->move('excel/pemeriksaan',$nama_file);
+
+        Excel::import(new PemeriksaanImport, public_path('/excel/pemeriksaan/'.$nama_file));
+
+        return redirect('/pemeriksaan')->with('success', 'berhasil import data !');
     }
 
     //view pemeriksaan
@@ -74,37 +99,42 @@ class PemeriksaanController extends Controller
             } 
             //jika status antrian buka
             elseif ($request->session()->get('antrian') == "buka") {
-                //update data status pemeriksaan menjadi 2 (status pemeriksaan berat)
-                $pemeriksaan->status_pemeriksaan = $request->status_pemeriksaan;
-                //update data status menjadi 5 (pemeriksaan offline)
-                $pemeriksaan->status = 5;
 
-                $pemeriksaan->save();
+                return redirect("/pemeriksaan/berat/$pemeriksaan->id");
                 
-                //jika jumlah antrian berdasarkan tanggal hari ini dan id poli itu kurang dari atau sama dengan nol 
-                if ($countAntrian <= 0) {
-                    //add data antrian dimulai dari antrian pertama
-                    Antrian::create([
-                        "tanggal" => $today,
-                        "antrian" => 1,
-                        "id_pemeriksaan" => $pemeriksaan->id,
-                        "id_poli" => $pemeriksaan->id_poli,
-                        "status" => 1,
-                    ]);   
-                } 
-                //jika jumlah antrian berdasarkan tanggal hari ini dan id poli itu lebih dari nol
-                else {
-                    //add data antrian berdasarkan jumlah antrian sebelumnya (jumlah antrian + 1)
-                    Antrian::create([
-                        "tanggal" => $today,
-                        "antrian" => $countAntrian+1,
-                        "id_pemeriksaan" => $pemeriksaan->id,
-                        "id_poli" => $pemeriksaan->id_poli,
-                        "status" => 1,
-                    ]);  
-                }
+                
+                // //update data status pemeriksaan menjadi 2 (status pemeriksaan berat)
+                // $pemeriksaan->status_pemeriksaan = $request->status_pemeriksaan;
+                // //update data status menjadi 5 (pemeriksaan offline)
+                // $pemeriksaan->status = 5;
 
-                return redirect("/pemeriksaan")->with('success', 'data telah di approve!, silahkan lihat nomor antrian!');
+                // $pemeriksaan->save();
+
+                
+                // //jika jumlah antrian berdasarkan tanggal hari ini dan id poli itu kurang dari atau sama dengan nol 
+                // if ($countAntrian <= 0) {
+                //     //add data antrian dimulai dari antrian pertama
+                //     Antrian::create([
+                //         "tanggal" => $today,
+                //         "antrian" => $request->antrian,
+                //         "id_pemeriksaan" => $pemeriksaan->id,
+                //         "id_poli" => $pemeriksaan->id_poli,
+                //         "status" => 1,
+                //     ]);   
+                // } 
+                // //jika jumlah antrian berdasarkan tanggal hari ini dan id poli itu lebih dari nol
+                // else {
+                //     //add data antrian berdasarkan jumlah antrian sebelumnya (jumlah antrian + 1)
+                //     Antrian::create([
+                //         "tanggal" => $today,
+                //         "antrian" => $countAntrian+1,
+                //         "id_pemeriksaan" => $pemeriksaan->id,
+                //         "id_poli" => $pemeriksaan->id_poli,
+                //         "status" => 1,
+                //     ]);  
+                // }
+
+                // return redirect("/pemeriksaan")->with('success', 'data telah di approve!, silahkan lihat nomor antrian!');
 
             }
             else{
@@ -113,6 +143,40 @@ class PemeriksaanController extends Controller
             
         }
     }
+
+    public function formPemeriksaanBerat($id)
+    {
+        $pemeriksaan = Pemeriksaan::find($id);
+
+        return view('pemeriksaan.pemeriksaan_berat', compact('pemeriksaan'));
+    }
+
+    public function pemeriksaanBerat($id, Request $request)
+    {
+        //data ppemeriksaan berdasarkan id pemeriksaan
+        $pemeriksaan = Pemeriksaan::find($id);
+
+        //create variable tanggal hari ini
+        $today = date('Y-m-d');
+
+        //update data status pemeriksaan menjadi 2 (status pemeriksaan berat)
+        $pemeriksaan->status_pemeriksaan = $request->status_pemeriksaan;
+        //update data status menjadi 5 (pemeriksaan offline)
+        $pemeriksaan->status = 5;
+
+        $pemeriksaan->save();
+
+        Antrian::create([
+            "tanggal" => $today,
+            "antrian" => $request->antrian,
+            "id_pemeriksaan" => $pemeriksaan->id,
+            "id_poli" => $pemeriksaan->id_poli,
+            "status" => 1,
+        ]);
+
+        return redirect("/pemeriksaan")->with('success', 'data telah di approve!, silahkan lihat nomor antrian!');
+    }
+
 
     //kirim obat
     public function kirimobat($id)
@@ -181,7 +245,7 @@ class PemeriksaanController extends Controller
             return response()->json([
                 "status" => 404,
                 "message" => "pemeriksaan not found"
-            ], 404);
+            ], 200);
         }
     }
 
@@ -189,6 +253,26 @@ class PemeriksaanController extends Controller
     //add data pemeriksaan
     public function addPemeriksaan(Request $request)
     {
+        $validation = Validator::make($request->all(), [
+            'nama' => ['required'],
+            'no_hp' => ['required', 'unique:pasien', 'max:255'], 
+            'alamat' => ['required', 'max:255'], 
+            'jenis_kelamin' => ['required', 'numeric'], 
+            'berat_badan' => ['required', 'numeric'], 
+            'tinggi_badan' => ['required', 'numeric'],
+            'tgl_lahir' => ['required'], 
+            'email' => ['required', 'unique:pasien', 'email', 'string'], 
+            'password' => ['required'],
+        ]);
+
+        if ($validation->fails()) {
+            return response()->json([
+                'status' => 401,
+                'description' => 'Error !',
+                'data' => $validation->errors(),
+            ]);
+        }
+
         //add data pemeriksaan
         Pemeriksaan::create([
             "tanggal" => $request->tanggal,
@@ -202,9 +286,9 @@ class PemeriksaanController extends Controller
         ]);
 
         return response()->json([
-            "status" => 201,
-            "message" => "Pemeriksaan record created"
-        ], 201);
+            "status" => 200,
+            "message" => "Pemeriksaan created !"
+        ], 200);
     }
 
     //delete pemeriksaan
@@ -218,15 +302,15 @@ class PemeriksaanController extends Controller
             $pemeriksaan->delete();
 
             return response()->json([
-                "status" => 202,
-                "message" => "records pemeriksaan deleted"
-            ], 202);
+                "status" => 200,
+                "message" => "pemeriksaan deleted !"
+            ], 200);
         }
         else{
             return response()->json([
                 "status" => 404,
                 "message" => "Pemeriksaan not found"
-            ], 404);
+            ], 200);
         }
     }
 }

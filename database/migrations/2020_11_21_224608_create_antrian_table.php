@@ -16,7 +16,7 @@ class CreateAntrianTable extends Migration
         Schema::create('antrian', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal');
-            $table->integer('antrian');
+            $table->string('antrian');
             $table->unsignedBigInteger('id_pemeriksaan');
             $table->unsignedBigInteger('id_poli');
             $table->integer('status');

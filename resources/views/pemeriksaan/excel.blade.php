@@ -1,13 +1,14 @@
 <table>
     <thead>
     <tr>
-        <th>No</th>
-        <th>Tanggal</th>
-        <th>Nama Pasien</th>
-        <th>No Hp</th>
-        <th>Poli</th>
-        <th>Keluhan</th>
-        <th>Hasil Pemeriksaan</th>
+        <th>no</th>
+        <th>no_pemeriksaan</th>
+        <th>tanggal</th>
+        <th>nama_pasien</th>
+        <th>no_hp</th>
+        <th>poli</th>
+        <th>keluhan</th>
+        <th>hasil_pemeriksaan</th>
     </tr>
     </thead>
     <tbody>
@@ -17,6 +18,7 @@
     @foreach($pemeriksaan as $data)
         <tr>
             <td>{{ $no++ }}</td>
+            <td>{{ $data->id }}</td>
             <td>{{ $data->created_at }}</td>
             <td>{{ $data->pasien->nama }}</td>
             <td>{{ $data->pasien->no_hp }}</td>

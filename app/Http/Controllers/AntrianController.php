@@ -74,13 +74,13 @@ class AntrianController extends Controller
                 return response()->json([
                     "status" => 404,
                     "message" => "antrian not found"
-                ], 404);
+                ], 200);
             }    
         } else {
             return response()->json([
                 "status" => 404,
                 "message" => "user not found"
-            ], 404);
+            ], 200);
         }
 
     }

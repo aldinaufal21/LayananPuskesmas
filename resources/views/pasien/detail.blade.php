@@ -41,13 +41,29 @@
         <div class="card-body">
             <p>Nama : {{ $pasien->nama }}</p>
             <p>Alamat : {{ $pasien->alamat }}</p>
-            <p>Jenis Kelamin : {{ $pasien->jenis_kelamin }}</p>
+            <p>Jenis Kelamin : 
+                @if ($pasien->jenis_kelamin == 1)
+                    Laki-Laki
+                @else
+                    Perempuan
+                @endif
+            </p>
             <p>Berat Badan : {{ $pasien->berat_badan }}</p>
             <p>Tinggi Badan : {{ $pasien->tinggi_badan }}</p>
             <p>Golongan Darah : {{ $pasien->gol_darah }}</p>
             <p>Tanggal Lahir : {{ $pasien->tgl_lahir }}</p>
             <p>No HP : {{ $pasien->no_hp }}</p>
             <p>Jumlah Pemeriksaan : {{ $jumlah }}</p>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold">Ktp Pasien</h6>
+        </div>
+        <div class="card-body">
+            <img src="{{ $pasien->foto }}" width="500">
+            <p style="margin-top: 20px">Nik : {{ $pasien->nik }}</p>
         </div>
     </div>
 

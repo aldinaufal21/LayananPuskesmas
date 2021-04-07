@@ -38,6 +38,35 @@
     <a href="/pemeriksaan/export" class="btn btn-primary mb-3"><i class="fa fa-print"></i> Export Pemeriksaan</a>
     @endif
 
+    <a href="#" data-toggle="modal" data-target="#importExcel" class="btn btn-primary mb-3"><i class="fa fa-print"></i> Import Pemeriksaan</a>
+
+    <!-- Import Excel -->
+    <div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form method="post" action="/pemeriksaan/import" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
+                    </div>
+                    <div class="modal-body">
+
+                        {{ csrf_field() }}
+
+                        <label>Pilih file excel</label>
+                        <div class="form-group">
+                            <input type="file" name="excel" required="required">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Import</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold">Data Pemeriksaan</h6>
@@ -54,6 +83,7 @@
                             <th>Keluhan</th>
                             <th>Kategori Pemeriksaan</th>
                             <th>Status</th>
+                            <th>Hasil Pemeriksaan</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -66,6 +96,7 @@
                             <th>Keluhan</th>
                             <th>Kategori Pemeriksaan</th>
                             <th>Status</th>
+                            <th>Hasil Pemeriksaan</th>
                             <th>Aksi</th>
                         </tr>
                     </tfoot>
@@ -103,6 +134,9 @@
                                         @elseif ($data->status == 6)
                                         <span class="badge badge-danger">pemeriksaan dibatalkan</span>
                                     @endif
+                                </td>
+                                <td>
+                                    {{ $data->hasil_pemeriksaan }}
                                 </td>
                                 <td>
                                     {{-- <a href="/poli/edit/{{ $data->id }}" class="btn btn-warning btn-sm">

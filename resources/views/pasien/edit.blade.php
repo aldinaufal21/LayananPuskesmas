@@ -10,7 +10,7 @@
         <h6 class="m-0 font-weight-bold ">Edit Data Pasien</h6>
     </div>
     <div class="card-body">
-        <form action="/pasien/update/{{ $pasien->id }}" method="POST">
+        <form action="/pasien/update/{{ $pasien->id }}" enctype="multipart/form-data" method="POST">
             @csrf
             <div class="form-group">
                 <label for="exampleFormControlInput1">Nama Lengkap</label>
@@ -23,8 +23,8 @@
             <div class="form-group">
                 <label for="exampleSelect1">Jenis Kelamin</label>
                 <select class="form-control" name="jenis_kelamin" id="exampleSelect1">
-                  <option @if ($pasien->jenis_kelamin == "laki-laki") selected @else  @endif value="laki-laki">Laki-Laki</option>
-                  <option @if ($pasien->jenis_kelamin == "perempuan") selected @else  @endif value="perempuan">Perempuan</option>
+                  <option @if ($pasien->jenis_kelamin == "1") selected @else  @endif value="1">Laki-Laki</option>
+                  <option @if ($pasien->jenis_kelamin == "2") selected @else  @endif value="2">Perempuan</option>
                 </select>
             </div>
             <div class="form-group">
@@ -52,6 +52,14 @@
             <div class="form-group">
                 <label for="exampleTextarea">Alamat</label>
                 <textarea class="form-control" name="alamat" id="exampleTextarea" rows="3">{{ $pasien->alamat }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">No.KTP</label>
+                <input class="form-control" value="{{ $pasien->no_ktp }}" name="no_ktp" type="text">
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Foto KTP</label>
+                <input class="form-control" value="{{ $pasien->foto_ktp }}" name="foto_ktp" type="file">
             </div>
 
             <div class="form-group">
