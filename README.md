@@ -1,78 +1,334 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+===== API ======
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+A.ENDPOINT API
 
-## About Laravel
+1. get poli
+[GET] puskesmas.ekopz.id/api/poli
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+2. get antrian
+[GET] puskesmas.ekopz.id/api/antrian/<id_pasien>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+3. get praktik
+[GET] puskesmas.ekopz.id/api/praktik
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+4. dokter
+a. get dokter
+[GET] puskesmas.ekopz.id/api/dokter
+b. get dokter by id_dokter
+[GET] puskesmas.ekopz.id/api/dokter/id/<id_dokter>
+c. get dokter by id_poli
+[GET] puskesmas.ekopz.id/api/dokter/poli/<id_poli>
 
-## Learning Laravel
+5. pasien
+a. get pasien
+[GET] puskesmas.ekopz.id/api/pasien
+b. get pasien by id_pasien
+[GET] puskesmas.ekopz.id/api/pasien/id/<id_pasien>
+c. registrasi pasien
+[POST] puskesmas.ekopz.id/api/register
+d. login pasien
+[POST] puskesmas.ekopz.id/api/login
+e. update pasien
+[POST] puskesmas.ekopz.id/api/pasien/update/<id_pasien>
+f. delete pasien
+[POST] puskesmas.ekopz.id/api/pasien/delete/<id_pasien>
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+6. Pemeriksaan
+a. get pemeriksaan by id_pasien
+[GET] puskesmas.ekopz.id/api/pemeriksaan/id/<id_pasien>
+b. add pemeriksaan
+[POST] puskesmas.ekopz.id/api/pemeriksaan/add
+c. delete pemeriksaan
+[GET] puskesmas.ekopz.id/api/pemeriksaan/delete/<id_pemeriksaan> 
+(tanggal, id_poli, keluhan, id_pasien)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+B. RESPON API
 
-## Laravel Sponsors
+1. get poli
+[GET] puskesmas.ekopz.id/api/poli
+Respon berhasil :
+{
+    "status": 200,
+    "data": {
+        "poli": [
+            {
+                "id": 1,
+                "nama_poli": "jantung",
+                "kode_antrian": "J",
+                "created_at": "2021-03-11T23:38:14.000000Z",
+                "updated_at": "2021-03-11T23:38:14.000000Z"
+            },
+        ]
+    }
+}
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+2. get antrian
+[GET] puskesmas.ekopz.id/api/antrian/<id_pasien>
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
+3. get praktik
+[GET] puskesmas.ekopz.id/api/praktik
+Respon Berhasil :
+{
+    "status": 200,
+    "data": {
+        "praktik": [
+            {
+                "id": 4,
+                "mulai": "2021-04-07 15:04:00",
+                "berakhir": "2021-04-07 20:00:00",
+                "id_dokter": 3,
+                "created_at": "2021-04-07T08:04:47.000000Z",
+                "updated_at": "2021-04-07T08:04:47.000000Z"
+            }
+        ]
+    }
+}
+	
 
-## Contributing
+4. dokter
+a. get dokter
+[GET] puskesmas.ekopz.id/api/dokter
+Respon Berhasil :
+{
+    "status": 200,
+    "data": {
+        "dokter": [
+            {
+                "id": 1,
+                "nama": "Aldy Naufal Alyyafi",
+                "ttl": "1996-05-12",
+                "jenis_kelamin": "Laki-Laki",
+                "alamat": "jalan sukabirus no a1a",
+                "poli_id": 1,
+                "created_at": "2021-03-11T23:41:02.000000Z",
+                "updated_at": "2021-03-11T23:41:02.000000Z"
+            },
+        ]
+    }
+}
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+b. get dokter by id_dokter
+[GET] puskesmas.ekopz.id/api/dokter/id/<id_dokter>
+Respon Berhasil :
+{
+    "status": 200,
+    "data": {
+        "dokter": {
+            "id": 1,
+            "nama": "Rifa Azkia",
+            "ttl": "2000-08-20",
+            "jenis_kelamin": "Perempuan",
+            "alamat": "jalan tb hasan kp cimesir rt 01/04 Rangkasbitung timur kab lebak",
+            "poli_id": 3,
+            "created_at": "2021-03-11T23:40:06.000000Z",
+            "updated_at": "2021-03-11T23:40:06.000000Z"
+        }
+    }
+}
 
-## Code of Conduct
+Data tidak ada :
+{
+    "status": 404,
+    "message": "dokter not found"
+} 
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+c. get dokter by id_poli
+[GET] puskesmas.ekopz.id/api/dokter/poli/<id_poli>
+Respon Berhasil :
+{
+    "status": 200,
+    "data": {
+        "dokter": [
+            {
+                "id": 2,
+                "nama": "Aldy Naufal Alyyafi",
+                "ttl": "1996-05-12",
+                "jenis_kelamin": "Laki-Laki",
+                "alamat": "jalan sukabirus no a1a",
+                "poli_id": 1,
+                "created_at": "2021-03-11T23:41:02.000000Z",
+                "updated_at": "2021-03-11T23:41:02.000000Z"
+            }
+        ]
+    }
+}
 
-## Security Vulnerabilities
+Data tidak ada :
+{
+    "status": 404,
+    "message": "dokter not found"
+} 
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+5. pasien
+a. get pasien
+[GET] puskesmas.ekopz.id/api/pasien
+Respon Berhasil :
+{
+    "status": 200,
+    "data": {
+        "pasien": [
+            {
+                "id": 1,
+                "nama": "fauzan maulana",
+                "alamat": "bandung barat",
+                "berat_badan": 50,
+                "tinggi_badan": 170,
+                "gol_darah": "ab",
+                "tgl_lahir": "2000-03-20",
+                "no_hp": "0895618959450",
+                "created_at": "2021-03-12T00:49:34.000000Z",
+                "updated_at": "2021-03-12T00:49:34.000000Z",
+                "jenis_kelamin": 1
+            }
+        ]
+    }
+}
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+b. get pasien by id_pasien
+[GET] puskesmas.ekopz.id/api/pasien/id/<id_pasien>
+Respon Berhasil :
+{
+    "status": 200,
+    "data": {
+        "pasien": {
+            "id": 1,
+            "nama": "fauzan maulana",
+            "alamat": "bandung barat",
+            "berat_badan": 50,
+            "tinggi_badan": 170,
+            "gol_darah": "ab",
+            "tgl_lahir": "2000-03-20",
+            "no_hp": "0895618959450",
+            "created_at": "2021-03-12T00:49:34.000000Z",
+            "updated_at": "2021-03-12T00:49:34.000000Z",
+            "jenis_kelamin": 1
+        }
+    }
+}
+
+Data Tidak Ada :
+{
+    "status": 404,
+    "message": "pasien not found"
+}
+
+c. registrasi pasien
+[POST] puskesmas.ekopz.id/api/register
+(nama, alamat, jenis_kelamin (number: 1 (laki-laki), number: 2 (perempuan)), berat_badan, tinggi_badan, gol_darah, tgl_lahir, no_hp, email, password, no_ktp, foto_ktp)
+Respon Berhasil :
+{
+    "status": 200,
+    "message": "Pasien created !"
+}
+
+Respon validasi form error : 
+{
+    "status": 401,
+    "description": "Error !",
+    "data": {
+        "no_hp": [
+            "The no hp has already been taken."
+        ],
+        "tgl_lahir": [
+            "The tgl lahir field is required."
+        ],
+        "email": [
+            "The email has already been taken."
+        ]
+    }
+}
+
+d. login pasien
+[POST] puskesmas.ekopz.id/api/login
+(no_hp, password)
+Respon Berhasil :
+{
+    "status": 200,
+    "message": "login successfully !",
+    "data": {
+        "pasien": {
+            "id": 1,
+            "nama": "fauzan maulana",
+            "alamat": "bandung barat",
+            "berat_badan": 50,
+            "tinggi_badan": 170,
+            "gol_darah": "ab",
+            "tgl_lahir": "2000-03-20",
+            "no_hp": "0895618959450",
+            "created_at": "2021-03-12T00:49:34.000000Z",
+            "updated_at": "2021-03-12T00:49:34.000000Z",
+            "jenis_kelamin": 1
+        }
+    }
+}
+
+e. update pasien
+[POST] puskesmas.ekopz.id/api/pasien/update/<id_pasien>
+(nama, alamat, jenis_kelamin, berat_badan, tinggi_badan, gol_darah, tgl_lahir, no_hp, email, password)
+Respon Berhasil : 
+{
+    "status": 200,
+    "message": "pasien updated !"
+}
+
+f. delete pasien
+[POST] puskesmas.ekopz.id/api/pasien/delete/<id_pasien>
+Respon Berhasil : 
+{
+    "status": 200,
+    "message": "pasien deleted !"
+}
+
+6. pemeriksaan
+a. get pemeriksaan by id_pasien
+[GET] puskesmas.ekopz.id/api/pemeriksaan/id/<id_pasien>
+Respon Berhasil :
+{
+    "status": 200,
+    "data": {
+        "pemeriksaan": [
+            {
+                "id": 1,
+                "id_poli": 1,
+                "keluhan": "tidak enak badan",
+                "id_pasien": 1,
+                "hasil_pemeriksaan": null,
+                "status_pemeriksaan": 1,
+                "status": 2,
+                "cetak": 1,
+                "created_at": "2021-03-17T00:23:32.000000Z",
+                "updated_at": "2021-03-17T00:45:10.000000Z"
+            }
+        ]
+    }
+}
+
+Data Tidak ada :
+{
+    "status": 404,
+    "message": "pemeriksaan not found"
+}
+
+b. add pemeriksaan
+[POST] puskesmas.ekopz.id/api/pemeriksaan/add
+Respon Berhasil :
+{
+    "status": 200,
+    "message": "pemeriksaan created !"
+}
+
+c. delete pemeriksaan
+[GET] puskesmas.ekopz.id/api/pemeriksaan/delete/<id_pemeriksaan> 
+Respon Berhasil :
+{
+    "status": 200,
+    "message": "pemeriksaan deleted !"
+}
+
+C. ERROR STATUS 
+
+status :
+200 - ok/created/updated/deleted
+404 - not found
+401 - field ada yang kosong
