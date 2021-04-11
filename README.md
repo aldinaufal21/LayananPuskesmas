@@ -44,7 +44,7 @@
 ## RESPON API
 
 1. get poli
-    * [GET] (https://puskesmas.ekopz.id/api/poli)
+* [GET] (https://puskesmas.ekopz.id/api/poli)
 ```
 Respon berhasil :
 {
@@ -64,10 +64,10 @@ Respon berhasil :
 ```
 
 2. get antrian
-    * [GET] (https://puskesmas.ekopz.id/api/antrian/<id_pasien>)
+* [GET] (https://puskesmas.ekopz.id/api/antrian/<id_pasien>)
 
 3. get praktik
-    * [GET] (https://puskesmas.ekopz.id/api/praktik)
+* [GET] (https://puskesmas.ekopz.id/api/praktik)
 ```
 Respon Berhasil :
 {
@@ -232,19 +232,19 @@ Data Tidak Ada :
 
 * registrasi pasien
     * [POST] (https://puskesmas.ekopz.id/api/register)
-- Field :
-  - nama (string),
-  - alamat (string), 
-  - jenis_kelamin (integer: 1 (laki-laki), 2 (perempuan)), 
-  - berat_badan (integer), 
-  - tinggi_badan (integer), 
-  - gol_darah (string), 
-  - tgl_lahir (date), 
-  - no_hp (string), 
-  - email (string), 
-  - password (string), 
-  - no_ktp (string), 
-  - foto_ktp (string),
+    * Field :
+        * nama (string),
+        * alamat (string), 
+        * jenis_kelamin (integer: 1 (laki-laki), 2 (perempuan)), 
+        * berat_badan (integer), 
+        * tinggi_badan (integer), 
+        * gol_darah (string), 
+        * tgl_lahir (date), 
+        * no_hp (string), 
+        * email (string), 
+        * password (string), 
+        * no_ktp (string), 
+        * foto_ktp (string),
   
 ```
 Respon Berhasil :
@@ -304,17 +304,17 @@ Respon Berhasil :
 
 * update pasien
     * [POST] (https://puskesmas.ekopz.id/api/pasien/update/<id_pasien>)
-- Field : 
-  - nama (string), 
-  - alamat (string), 
-  - jenis_kelamin (integer: 1 (laki-laki), 2 (perempuan)), 
-  - berat_badan (integer), 
-  - tinggi_badan (integer), 
-  - gol_darah (string), 
-  - tgl_lahir (date), 
-  - no_hp (string), 
-  - email (string), 
-  - password (string)
+    * Field : 
+        * nama (string), 
+        * alamat (string), 
+        * jenis_kelamin (integer: 1 (laki-laki), 2 (perempuan)), 
+        * berat_badan (integer), 
+        * tinggi_badan (integer), 
+        * gol_darah (string), 
+        * tgl_lahir (date), 
+        * no_hp (string), 
+        * email (string), 
+        * password (string)
 
 ```
 Respon Berhasil : 
@@ -334,7 +334,7 @@ Respon Berhasil :
 }
 ```
 
-6. pemeriksaan
+1. pemeriksaan
 * get pemeriksaan by id_pasien
     * [GET] (https://puskesmas.ekopz.id/api/pemeriksaan/id/<id_pasien>)
 ```
@@ -369,11 +369,11 @@ Data Tidak ada :
 
 * add pemeriksaan
     * [POST] (https://puskesmas.ekopz.id/api/pemeriksaan/add)
-- Field :
-  - tanggal (date)
-  - id_poli (integer)
-  - keluhan (string)
-  - id_pasien (integer)
+    * Field :
+        * tanggal (date)
+        * id_poli (integer)
+        * keluhan (string)
+        * id_pasien (integer)
   
 ```
 Respon Berhasil :
