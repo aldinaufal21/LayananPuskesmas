@@ -44,7 +44,7 @@
 ## RESPON API
 
 1. get poli
-* [GET] (https://puskesmas.ekopz.id/api/poli)
+    * [GET] (https://puskesmas.ekopz.id/api/poli)
 ```
 Respon berhasil :
 {
@@ -64,10 +64,10 @@ Respon berhasil :
 ```
 
 2. get antrian
-* [GET] (https://puskesmas.ekopz.id/api/antrian/<id_pasien>)
+    * [GET] (https://puskesmas.ekopz.id/api/antrian/<id_pasien>)
 
 3. get praktik
-* [GET] (https://puskesmas.ekopz.id/api/praktik)
+    * [GET] (https://puskesmas.ekopz.id/api/praktik)
 ```
 Respon Berhasil :
 {
@@ -89,7 +89,7 @@ Respon Berhasil :
 
 4. dokter
 * get dokter
-* [GET] (https://puskesmas.ekopz.id/api/dokter)
+    * [GET] (https://puskesmas.ekopz.id/api/dokter)
 ```
 Respon Berhasil :
 {
@@ -112,7 +112,7 @@ Respon Berhasil :
 ```
 
 * get dokter by id_dokter
-* [GET] (https://puskesmas.ekopz.id/api/dokter/id/<id_dokter>)
+    * [GET] (https://puskesmas.ekopz.id/api/dokter/id/<id_dokter>)
 ```
 Respon Berhasil :
 {
@@ -140,7 +140,7 @@ Data tidak ada :
 ```
 
 * get dokter by id_poli
-* [GET] (https://puskesmas.ekopz.id/api/dokter/poli/<id_poli>)
+    * [GET] (https://puskesmas.ekopz.id/api/dokter/poli/<id_poli>)
 ```
 Respon Berhasil :
 {
@@ -172,7 +172,7 @@ Data tidak ada :
 
 5. pasien
 * get pasien
-* [GET] (https://puskesmas.ekopz.id/api/pasien)
+    * [GET] (https://puskesmas.ekopz.id/api/pasien)
 ```
 Respon Berhasil :
 {
@@ -199,7 +199,7 @@ Respon Berhasil :
 
 
 * get pasien by id_pasien
-* [GET] (https://puskesmas.ekopz.id/api/pasien/id/<id_pasien>)
+    * [GET] (https://puskesmas.ekopz.id/api/pasien/id/<id_pasien>)
 ```
 Respon Berhasil :
 {
@@ -231,7 +231,7 @@ Data Tidak Ada :
 ```
 
 * registrasi pasien
-[POST] (https://puskesmas.ekopz.id/api/register)
+    * [POST] (https://puskesmas.ekopz.id/api/register)
 - Field :
   - nama (string),
   - alamat (string), 
@@ -274,7 +274,7 @@ Respon validasi form error :
 ```
 
 * login pasien
-[POST] (https://puskesmas.ekopz.id/api/login)
+    * [POST] (https://puskesmas.ekopz.id/api/login)
 - Field : 
   - no_hp (string), 
   - password (string),
@@ -303,7 +303,7 @@ Respon Berhasil :
 ```
 
 * update pasien
-[POST] (https://puskesmas.ekopz.id/api/pasien/update/<id_pasien>)
+    * [POST] (https://puskesmas.ekopz.id/api/pasien/update/<id_pasien>)
 - Field : 
   - nama (string), 
   - alamat (string), 
@@ -325,7 +325,7 @@ Respon Berhasil :
 ```
 
 * delete pasien
-* [GET] (https://puskesmas.ekopz.id/api/pasien/delete/<id_pasien>)
+    * [GET] (https://puskesmas.ekopz.id/api/pasien/delete/<id_pasien>)
 ```
 Respon Berhasil : 
 {
@@ -336,7 +336,7 @@ Respon Berhasil :
 
 6. pemeriksaan
 * get pemeriksaan by id_pasien
-* [GET] (https://puskesmas.ekopz.id/api/pemeriksaan/id/<id_pasien>)
+    * [GET] (https://puskesmas.ekopz.id/api/pemeriksaan/id/<id_pasien>)
 ```
 Respon Berhasil :
 {
@@ -368,7 +368,7 @@ Data Tidak ada :
 ```
 
 * add pemeriksaan
-[POST] (https://puskesmas.ekopz.id/api/pemeriksaan/add)
+    * [POST] (https://puskesmas.ekopz.id/api/pemeriksaan/add)
 - Field :
   - tanggal (date)
   - id_poli (integer)
@@ -384,7 +384,7 @@ Respon Berhasil :
 ```
 
 * delete pemeriksaan
-* [GET] (https://puskesmas.ekopz.id/api/pemeriksaan/delete/<id_pemeriksaan>)
+    * [GET] (https://puskesmas.ekopz.id/api/pemeriksaan/delete/<id_pemeriksaan>)
 ``` 
 Respon Berhasil :
 {
