@@ -275,9 +275,9 @@ Respon validasi form error :
 
 * login pasien
     * [POST] (https://puskesmas.ekopz.id/api/login)
-- Field : 
-  - no_hp (string), 
-  - password (string),
+    * Field : 
+        * no_hp (string), 
+        * password (string),
   
 ```
 Respon Berhasil :
