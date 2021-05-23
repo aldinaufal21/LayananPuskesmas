@@ -250,7 +250,7 @@ class PasienController extends Controller
             $pasien = Pasien::where('no_hp', $nohp)->first();
 
             if ($pasien) {
-                if (Hash::check($password, $pasien->password) == false) {
+                if (Hash::check($password, $pasien->password) == true) {
                     return response()->json([
                         'status' => 200,
                         'message' => 'login successfully !',

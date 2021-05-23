@@ -22,6 +22,7 @@ class PemeriksaanController extends Controller
         return Excel::download(new PemeriksaanExport, 'pemeriksaan.xlsx');
     }
 
+    //import excel
     public function importExcel(Request $request)
     {
         // validasi

@@ -13,7 +13,7 @@ class DokterController extends Controller
     //view dokter
     public function index()
     {
-        //data dokter
+        //get data dokter
         $dokter = Dokter::All()->sortDesc();
 
         return view('dokter.index', compact('dokter'));
