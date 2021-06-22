@@ -41,6 +41,14 @@
 * delete pemeriksaan
     * [GET] (https://puskesmas.ekopz.id/api/pemeriksaan/delete/<id_pemeriksaan>)
 
+7. KTP
+* upload KTP
+    * [POST] (https://puskesmas.ekopz.id/api/ktp/tambah/<id_pasien>)
+* update KTP
+    * [POST] (https://puskesmas.ekopz.id/api/update/<id_ktp>)
+* delete KTP
+    * [GET] (https://puskesmas.ekopz.id/api/delete/<id_ktp>)
+
 ## RESPON API
 
 1. get poli
@@ -243,8 +251,6 @@ Data Tidak Ada :
         * no_hp (string), 
         * email (string), 
         * password (string), 
-        * no_ktp (string), 
-        * foto_ktp (string),
   
 ```
 Respon Berhasil :
@@ -392,6 +398,47 @@ Respon Berhasil :
     "message": "pemeriksaan deleted !"
 }
 ```
+
+6. KTP
+* Upload KTP
+    * [POST] (https://puskesmas.ekopz.id/api/ktp/tambah/<id_pasien>)
+    * Field :
+        * nik (integer)
+        * foto (file/image)
+      
+    ```
+    Respon Berhasil :
+    {
+        "status": 200,
+        "message": "Ktp Created !"
+    }
+    ```
+
+* Update KTP
+    * [POST] (https://puskesmas.ekopz.id/api/ktp/update/<id_ktp>)
+    * Field :
+        * nik (integer)
+        * foto (file/image)
+  
+```
+Respon Berhasil :
+{
+    "status": 200,
+    "message": "Ktp Updated !"
+}
+```
+
+* delete KTP
+    * [GET] (https://puskesmas.ekopz.id/api/ktp/delete/<id_ktp>)
+``` 
+Respon Berhasil :
+{
+    "status": 200,
+    "message": "Ktp Deleted !"
+}
+```
+
+
 
 ## ERROR STATUS 
 
