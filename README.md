@@ -438,7 +438,15 @@ Respon Berhasil :
 }
 ```
 
+## STATUS 
 
+* Status Pemeriksaan : 
+  * 1 : Pengajuan
+  * 2 : Pemeriksaan Ringan
+  * 3 : Kirim Obat
+  * 4 : Selesai
+  * 5 : Pemeriksaan Berat
+  * 6 : Pengajuan Pemeriksaan Ditolak
 
 ## ERROR STATUS 
 
