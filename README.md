@@ -365,6 +365,41 @@ Respon Berhasil :
     }
 }
 ```
+* detail pemeriksaan
+    * [GET] (https://puskesmas.ekopz.id/api/pemeriksaan/detail/<id_pemeriksaan>)
+```
+Respon Berhasil :
+{
+    "status": 200,
+    "description": "ok",
+    "data": {
+        "pemeriksaan": {
+            "id": 7,
+            "id_poli": 1,
+            "keluhan": "test",
+            "id_pasien": 3,
+            "hasil_pemeriksaan": null,
+            "status": 5,
+            "created_at": "2021-07-19 16:19:57",
+            "updated_at": "2021-07-19 16:29:44",
+            "pasien": {
+                "id": 3,
+                "nama": "azkian rifa",
+                "alamat": "jalan tb hasan kp cimesir kota bandung",
+                "berat_badan": 70,
+                "tinggi_badan": 170,
+                "gol_darah": "a",
+                "tgl_lahir": "2000-08-20",
+                "no_hp": "085217244282",
+                "created_at": "2021-05-07T16:48:31.000000Z",
+                "updated_at": "2021-05-07T16:48:31.000000Z",
+                "jenis_kelamin": 1
+            }
+        }
+    }
+}
+```
+
 ```
 Data Tidak ada :
 {
