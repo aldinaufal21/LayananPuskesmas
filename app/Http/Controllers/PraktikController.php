@@ -94,7 +94,13 @@ class PraktikController extends Controller
         //create variable tanggal sekarang
         $today = date('Y-m-d');
         //data praktik berdasarkan tanggal mulai hari ini
-        $praktik = Praktik::whereDate('mulai','=',$today)->get();
+        $praktik = Praktik::with([
+            'dokter' => function($query)
+            {
+                $query->with('poli');
+            }
+            ])
+            ->whereDate('mulai','=',$today)->orderBy('created_at', 'DESC')->get();
 
         return response()->json([
             "status" => 200,

@@ -40,12 +40,26 @@
             <span>Pemeriksaan</span></a>
     </li>
 
+    <!-- Nav Item - Kelola pemeriksaan ringan -->
+    <li class="nav-item {{ (request()->is('pemeriksaan_ringan*')) ? 'active' : '' }}">
+        <a class="nav-link" href="/pemeriksaan_ringan">
+            <i class="fas fa-fw fa-book-medical"></i>
+            <span>Pemeriksaan Ringan</span></a>
+    </li>
+
+    <!-- Nav Item - Kelola pemeriksaan berat -->
+    <li class="nav-item {{ (request()->is('pemeriksaan_berat*')) ? 'active' : '' }}">
+        <a class="nav-link" href="/pemeriksaan_berat">
+            <i class="fas fa-fw fa-book-medical"></i>
+            <span>Pemeriksaan Berat</span></a>
+    </li>
+
     <!-- Nav Item - Kelola Antrian -->
-    <li class="nav-item {{ (request()->is('antrian*')) ? 'active' : '' }}">
+    {{-- <li class="nav-item {{ (request()->is('antrian*')) ? 'active' : '' }}">
         <a class="nav-link" href="/antrian">
             <i class="fas fa-fw fa-tasks"></i>
             <span>Antrian</span></a>
-    </li>
+    </li> --}}
 
     <!-- Divider -->
     <hr class="sidebar-divider">

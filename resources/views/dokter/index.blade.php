@@ -47,9 +47,10 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Akses Kode</th>
                             <th>Nama Dokter</th>
                             <th>TTL</th>
-                            <th>Jenis Kelamin</th>
+                            <th>Jenis Kelamin</th>  
                             <th>Alamat</th>
                             <th>Poli</th>
                             <th>Aksi</th>
@@ -58,6 +59,7 @@
                     <tfoot>
                         <tr>
                             <th>No</th>
+                            <th>Akses Kode</th>
                             <th>Nama Dokter</th>
                             <th>TTL</th>
                             <th>Jenis Kelamin</th>
@@ -73,6 +75,7 @@
                         @foreach ($dokter as $data)
                             <tr>
                                 <td>{{ $no++ }}</td>
+                                <td>{{ $data->access_code }}</td>
                                 <td>{{ $data->nama }}</td>
                                 <td>{{ $data->ttl }}</td>
                                 <td>{{ $data->jenis_kelamin }}</td>

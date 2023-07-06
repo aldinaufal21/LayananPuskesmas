@@ -5,8 +5,9 @@ namespace App\Exports;
 use App\Dokter;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class ReportDokterExport implements FromView
+class ReportDokterExport implements FromView, ShouldAutoSize
 {
     protected $poli;
 

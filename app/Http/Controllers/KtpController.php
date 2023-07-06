@@ -31,22 +31,39 @@ class KtpController extends Controller
                 'data' => $validation->errors()
             ], 200);
         } else {
+
             //data pasien berdasarkan id_pasien
             $pasien = Pasien::find($id_pasien);
 
             //jika data pasien ada
             if ($pasien) {
-                //upload images
-                $foto = $request->foto;
-                $urlFoto = $foto != null ?
-                    $this->storeImages($foto, 'foto_ktp') : null;
+                $ktp = Ktp::where('id_pasien', $id_pasien)->first();
 
-                //create ktp
-                Ktp::create([
-                    'nik' => $request->nik,
-                    'foto' => $urlFoto,
-                    'id_pasien' => $id_pasien,
-                ]);
+                if (empty($ktp)) {
+                    //upload images
+                    $foto = $request->foto;
+                    $urlFoto = $foto != null ?
+                        $this->storeImages($foto, 'foto_ktp') : null;
+
+                    //create ktp
+                    Ktp::create([
+                        'nik' => $request->nik,
+                        'foto' => $urlFoto,
+                        'id_pasien' => $id_pasien,
+                    ]);
+                }
+                else {
+                    $foto = $request->foto;
+                    $urlFoto = $foto != null ?
+                    $this->storeImages($foto, 'foto_ktp') : $ktp->foto;
+
+                    //update ktp
+                    $ktp->nik = $request->nik;
+
+                    $ktp->foto = $urlFoto;
+
+                    $ktp->save();
+                }
 
                 //tampilkan respon berhasil ditambah data
                 return response()->json([

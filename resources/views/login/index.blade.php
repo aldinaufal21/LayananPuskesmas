@@ -37,6 +37,20 @@
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+                @elseif (session('alert-danger'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ session('alert-danger') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @elseif (session('alert-success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('alert-success') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
 
                 @elseif (session('logout'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -91,7 +105,8 @@
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Lupa Password?</a>
+                                        <a href="{{ route('form.register') }}" class="small" href="forgot-password.html">Register Pasien</a> |
+                                        <a href="{{ route('register') }}" class="small" href="forgot-password.html">Register Admin</a>
                                     </div>
                                 </div>
                             </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Dokter;
+use App\Pemeriksaan;
 use App\Poli;
 
 class DokterController extends Controller
@@ -24,6 +25,7 @@ class DokterController extends Controller
     {
         //data poli
         $poli = Poli::All()->sortDesc();
+        $dokter = 'dokter';
 
         return view('dokter.tambah', compact('poli'));
     }
@@ -31,6 +33,8 @@ class DokterController extends Controller
     //tambah data dokter
     public function add(Request $request)
     {
+        $permitted_chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
         //add data dokter
         Dokter::create([
             'nama' => $request->nama,
@@ -38,6 +42,7 @@ class DokterController extends Controller
             'jenis_kelamin' => $request->jenis_kelamin,
             'alamat' => $request->alamat,
             'poli_id' => $request->poli_id,
+            'access_code' => substr(str_shuffle($permitted_chars), 0, 6)
         ]);
 
         return redirect('/dokter')->with('success', 'Data berhasil ditambahkan!');
@@ -131,6 +136,28 @@ class DokterController extends Controller
             return response()->json([
                 "status" => 200,
                 "data" => compact('dokter'),
+            ], 200);
+        }
+        else{
+            return response()->json([
+                "status" => 404,
+                "message" => "dokter not found"
+            ], 200);
+        }
+    }
+
+    public function viewPemeriksaan($id_dokter)
+    {
+         //jika data dokter berdasarkan id_poli tersedia
+         if(Dokter::where('id', $id_dokter)->exists()){
+            //data dokter berdasarkan id poli
+            $dokter = Dokter::where('id', $id_dokter)->first();
+
+            $pemeriksaan = Pemeriksaan::where('id_poli', $dokter->poli_id)->orderBy('id', 'DESC')->get();
+
+            return response()->json([
+                "status" => 200,
+                "data" => compact('pemeriksaan'),
             ], 200);
         }
         else{

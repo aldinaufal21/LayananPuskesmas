@@ -15,7 +15,7 @@ class AntrianController extends Controller
     public function index()
     {
         //data antrian
-        $antrian = Antrian::orderBy('tanggal', 'DESC')->orderBy('antrian', 'DESC')->get();
+        $antrian = Antrian::orderBy('tanggal', 'DESC')->get();
 
         return view('antrian.index', compact('antrian'));
     }

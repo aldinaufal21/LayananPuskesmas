@@ -54,15 +54,27 @@ Route::get('/pasien/delete/{id}', 'PasienController@deletePasien');
 //register pasien
 Route::post('/register', 'PasienController@addPasien');
 //login pasien
-Route::post('/login', 'PasienController@login');
+Route::post('/login/pasien', 'PasienController@loginPasien');
+//login admin
+Route::post('/login', 'AuthController@loginAdmin');
+//login dokter
+Route::post('/login/dokter', 'AuthController@loginDokter');
 
 //pemeriksaan
 //view pemeriksaan by id pasien
 Route::get('/pemeriksaan/id/{id}', 'PemeriksaanController@viewPemeriksaan');
+//detail pemeriksaan
+Route::get('/pemeriksaan/detail/{id}', 'PemeriksaanController@detailPemeriksaan');
 //add pemeriksaan
 Route::post('/pemeriksaan/add', 'PemeriksaanController@addPemeriksaan');
 //delete pemeriksaan
 Route::get('/pemeriksaan/delete/{id}', 'PemeriksaanController@deletePemeriksaan');
+//view pemeriksaan by dokter
+Route::get('/pemeriksaan/dokter/{id_dokter}', 'DokterController@viewPemeriksaan');
+//view pemeriksaan by admin
+Route::get('/pemeriksaan/admin', 'PemeriksaanController@viewAllPemeriksaan');
+//update poli pemeriksaan
+Route::post('/pemeriksaan/update/poli/{id_pemeriksaan}', 'PemeriksaanController@updatePoliPemeriksaan');
 
 //ktp
 //tambah ktp
@@ -71,3 +83,11 @@ Route::post('/ktp/tambah/{id_pasien}', 'KtpController@tambahKtp');
 Route::post('/ktp/update/{id}', 'KtpController@updateKtp');
 //delete ktp
 Route::get('/ktp/delete/{id}', 'KtpController@deleteKtp');
+
+
+//verification email
+Route::group(['prefix' => 'email'], function()
+{
+    Route::get('/resend/{email}', 'VerificationEmailController@resend')->name('verification.resend');
+    Route::get('/verify/{id}/{hash}', 'VerificationEmailController@verify')->name('verification.verify');
+});

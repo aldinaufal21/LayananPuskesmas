@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Pasien extends Model
 {
     protected $table = "pasien";
-    protected $fillable = ['nama', 'alamat', 'jenis_kelamin', 'berat_badan', 'tinggi_badan', 'gol_darah', 'tgl_lahir', 'no_hp', 'email', 'password'];
+    protected $fillable = ['nama', 'alamat', 'jenis_kelamin', 'berat_badan', 'tinggi_badan', 'gol_darah', 'tgl_lahir', 'no_hp', 'email', 'password', 'id_users'];
 
     protected $hidden = ['email', 'password'];
 
@@ -18,6 +18,6 @@ class Pasien extends Model
 
     public function ktp()
     {
-        return $this->hasMany('App\Ktp');
+        return $this->hasOne('App\Ktp', 'id_pasien');
     }
 }

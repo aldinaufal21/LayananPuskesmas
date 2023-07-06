@@ -46,6 +46,7 @@
                             <th>Tanggal Lahir</th>
                             <th>Alamat</th>
                             <th>No Hp</th>
+                            <th>NIK</th>
                             <th>Foto KTP</th>
                             <th>Aksi</th>
                         </tr>
@@ -58,6 +59,7 @@
                             <th>Tanggal Lahir</th>
                             <th>Alamat</th>
                             <th>No Hp</th>
+                            <th>NIK</th>
                             <th>Foto KTP</th>
                             <th>Aksi</th>
                         </tr>
@@ -80,7 +82,10 @@
                                 <td>{{ $data->tgl_lahir }}</td>
                                 <td>{{ $data->alamat }}</td>
                                 <td>{{ $data->no_hp }}</td>
-                                <td><img src="{{ $data->foto }}" width="200"></td>
+                                <td>{{ $data->nik }}</td>
+                                <td>@if ($data->foto_ktp)
+                                    <img src="{{ $data->foto_ktp }}" width="200">
+                                @endif</td>
                                 <td>
                                     <a href="/pasien/detail/{{ $data->id }}" class="btn btn-primary btn-sm">
                                         <i class="fas fa-eye"></i> Lihat Data

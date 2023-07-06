@@ -9,6 +9,7 @@ use App\Pemeriksaan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Traits\ImageUpload;
+use App\User;
 use Illuminate\Support\Facades\Validator;
 
 class PasienController extends Controller
@@ -22,7 +23,8 @@ class PasienController extends Controller
     public function index()
     {
         //data pasien 
-        $pasien = Pasien::all()->sortDesc();
+        $pasien = Pasien::join('ktp', 'ktp.id_pasien', '=', 'pasien.id')
+                ->select('pasien.*', 'ktp.foto as foto_ktp', 'ktp.nik as nik')->orderBy('pasien.id', 'DESC')->get();
 
         return view('pasien.index', compact('pasien'));
     }
@@ -33,7 +35,8 @@ class PasienController extends Controller
         //data pemeriksaan berdasarkan id pasien
         $pemeriksaan = Pemeriksaan::where('id_pasien', $id)->get();
         //data pasien berdasarkan id pasien
-        $pasien = Pasien::find($id);
+        $pasien = Pasien::join('ktp', 'ktp.id_pasien', '=', 'pasien.id')
+                ->select('pasien.*', 'ktp.foto as foto_ktp', 'ktp.nik as nik')->where('pasien.id', $id)->first();
 
         //jumlah pemeriksaan berdasarkan id pasien
         $jumlah = $pemeriksaan->count();
@@ -92,7 +95,7 @@ class PasienController extends Controller
         //jika data pasien berdasarkan id pasien tersedia
         if(Pasien::find($id)){
             //data pasien berdasarkan id pasien
-            $pasien = Pasien::find($id);
+            $pasien = Pasien::with('ktp')->find($id);
 
             return response()->json([
                 "status" => 200,
@@ -103,7 +106,7 @@ class PasienController extends Controller
             return response()->json([
                 "status" => 404,
                 "message" => "pasien not found"
-            ], 200);
+            ], 404);
         }
     }
 
@@ -118,21 +121,28 @@ class PasienController extends Controller
             'berat_badan' => ['required', 'numeric'], 
             'tinggi_badan' => ['required', 'numeric'],
             'tgl_lahir' => ['required'], 
-            'email' => ['required', 'unique:pasien', 'email', 'string'], 
+            'email' => ['required', 'unique:users', 'email', 'string'], 
             'password' => ['required'],
         ]);
 
         if ($validation->fails()) {
             return response()->json([
-                'status' => 401,
+                'status' => 400,
                 'description' => 'Error !',
                 'data' => $validation->errors(),
-            ]);
+            ], 400);
         } 
         else {
             //add data pasien
-            Pasien::create([
-                'nama' => $request->nama,
+            $user = User::create([
+                'name' => $request->nama,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role' => 2
+            ]);
+    
+            $get_pasien = Pasien::create([
+                'nama' => $request->nama,   
                 'alamat' => $request->alamat,
                 'jenis_kelamin' => $request->jenis_kelamin, 
                 'berat_badan' => $request->berat_badan,
@@ -140,13 +150,29 @@ class PasienController extends Controller
                 'gol_darah' => $request->gol_darah,
                 'tgl_lahir' => $request->tgl_lahir,
                 'no_hp' => $request->no_hp,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
+                'id_users' => $user->id,
             ]);
+
+            $pasien = [
+                'nama' => $get_pasien->nama,
+                'alamat' => $get_pasien->alamat,
+                'berat_badan' => $get_pasien->berat_badan,
+                'tinggi_badan' => $get_pasien->tinggi_badan,
+                'gol_darah' => $get_pasien->gol_darah,
+                'tgl_lahir' => $get_pasien->tgl_lahir,
+                'no_hp' => $get_pasien->no_hp,
+                'jenis_kelamin' => $get_pasien->jenis_kelamin,
+                'email' => $user->email,
+                'email_verified_at' => $user->email_verified_at,
+                'role' => $user->role,
+                'created_at' => $user->created_at,
+                'updated_at' => $user->updated_at
+            ];
 
             return response()->json([
                 "status" => 200,
-                "message" => "Pasien created !"
+                "message" => "Pasien created !",
+                "data" => compact('pasien')
             ], 200);
         }
     }
@@ -167,16 +193,14 @@ class PasienController extends Controller
                 'berat_badan' => ['required', 'numeric'], 
                 'tinggi_badan' => ['required', 'numeric'],
                 'tgl_lahir' => ['required'], 
-                'email' => ['required', 'email', 'string'], 
-                'password' => ['required'],
             ]);
 
             if ($validation->fails()) {
                 return response()->json([
-                    'status' => 401,
+                    'status' => 400,
                     'description' => 'Error !',
                     'data' => $validation->errors(),
-                ]);
+                ], 400);
             }
             else {
                 //update data pasien berdasarkan request data
@@ -202,7 +226,7 @@ class PasienController extends Controller
             return response()->json([
                 "status" => 404,
                 "message" => "Pasien Not Found"
-            ], 200);
+            ], 404);
         }
     }
 
@@ -225,7 +249,7 @@ class PasienController extends Controller
             return response()->json([
                 "status" => 404,
                 "message" => "Pasien not found"
-            ], 200);
+            ], 404);
         }
     }
 
@@ -238,10 +262,10 @@ class PasienController extends Controller
 
         if ($validation->fails()) {
             return response()->json([
-                'status' => 401,
+                'status' => 400,
                 'description' => 'Error !',
                 'data' => $validation->errors(),
-            ]);
+            ], 400);
         }
         else {
             $nohp = $request->no_hp;
@@ -260,13 +284,13 @@ class PasienController extends Controller
                     return response()->json([
                         'status' => 404,
                         'message' => 'no_hp or password wrong!',
-                    ], 200);
+                    ], 404);
                 }
             } else {
                 return response()->json([
                     'status' => 404,
                     'message' => 'no_hp or password wrong!',
-                ], 200);
+                ], 404);
             }   
         }
     }

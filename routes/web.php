@@ -54,6 +54,9 @@ Route::group(['prefix'=>'pemeriksaan', 'middleware'=>'auth'], function()
     Route::post('/import', 'PemeriksaanController@importExcel');
 });
 
+Route::get('/pemeriksaan_ringan', 'PemeriksaanController@viewPemeriksaanRingan')->middleware('auth');
+Route::get('/pemeriksaan_berat', 'PemeriksaanController@viewPemeriksaanBerat')->middleware('auth');
+
 //route dokter
 Route::group(['prefix'=>'dokter', 'middleware'=>'auth'], function()
 {
@@ -102,4 +105,10 @@ Route::group(['prefix' => 'report', 'middleware' => 'auth'], function()
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['prefix' => 'authentikasi'], function()
+{
+    Route::get('/register', 'AuthController@registerPasien')->name('form.register');
+    Route::post('/register', 'AuthController@register')->name('register.pasien');
+});
 

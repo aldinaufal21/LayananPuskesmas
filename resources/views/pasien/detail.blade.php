@@ -62,7 +62,7 @@
             <h6 class="m-0 font-weight-bold">Ktp Pasien</h6>
         </div>
         <div class="card-body">
-            <img src="{{ $pasien->foto }}" width="500">
+            <img src="{{ $pasien->foto_ktp }}" width="500">
             <p style="margin-top: 20px">Nik : {{ $pasien->nik }}</p>
         </div>
     </div>

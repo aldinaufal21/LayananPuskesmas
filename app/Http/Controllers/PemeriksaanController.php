@@ -8,6 +8,7 @@ use App\Http\Controllers\Traits\ExcelUpload;
 use App\Imports\PemeriksaanImport;
 use App\Pemeriksaan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Excel as MaatwebsiteExcel;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -41,7 +42,7 @@ class PemeriksaanController extends Controller
 
         Excel::import(new PemeriksaanImport, public_path('/excel/pemeriksaan/'.$nama_file));
 
-        return redirect('/pemeriksaan')->with('success', 'berhasil import data !');
+        return redirect('/pemeriksaan_ringan')->with('success', 'berhasil import data !');
     }
 
     //view pemeriksaan
@@ -57,6 +58,28 @@ class PemeriksaanController extends Controller
         $jumlah = $data->count();
         
         return view('pemeriksaan.index', compact('pemeriksaan', 'jumlah'));
+    }
+
+    //view pemeriksaan ringan
+    public function viewPemeriksaanRingan()
+    {
+        $today = date("Y-m-d");
+        $cetak = NULL;
+        $data = Pemeriksaan::whereDate('created_at', "=",$today)->where('status_pemeriksaan', 1)->where('cetak', $cetak)->limit(10)->get();
+        $jumlah = $data->count();
+
+        $pemeriksaan = Pemeriksaan::where('status_pemeriksaan', 1)->orderBy('id', 'DESC')->get();
+
+        return view('pemeriksaan.pemeriksaan_ringan', compact('pemeriksaan', 'jumlah'));
+    }
+
+    public function viewPemeriksaanBerat()
+    {
+        $pemeriksaan = Pemeriksaan::join('antrian', 'antrian.id_pemeriksaan', '=', 'pemeriksaan.id')
+                        ->select('pemeriksaan.*', 'antrian.id as id_antrian', 'antrian.antrian as antrian', 'antrian.tanggal as tanggal_antrian', 'antrian.status as status_antrian')
+                        ->where('pemeriksaan.status', 5)->orderBy('pemeriksaan.id', 'DESC')->get();
+
+        return view('pemeriksaan.pemeriksaan_berat', compact('pemeriksaan'));
     }
 
     //view form approve pemeriksaan
@@ -90,7 +113,7 @@ class PemeriksaanController extends Controller
             //update pemeriksaan
             $pemeriksaan->save();
 
-            return redirect('/pemeriksaan')->with('success', 'pemeriksaan berhasil di Approve!, silahkan klik export pemeriksaan untuk men-download surat konsultasi dokter');
+            return redirect('/pemeriksaan_ringan')->with('success', 'pemeriksaan berhasil di Approve!, silahkan klik export pemeriksaan untuk men-download surat konsultasi dokter');
         }
         //jika status pemeriksaan yang dipilih adalah 2 (status pemeriksaan berat) 
         elseif($request->status_pemeriksaan == '2'){
@@ -149,7 +172,7 @@ class PemeriksaanController extends Controller
     {
         $pemeriksaan = Pemeriksaan::find($id);
 
-        return view('pemeriksaan.pemeriksaan_berat', compact('pemeriksaan'));
+        return view('pemeriksaan.form_pemeriksaan_berat', compact('pemeriksaan'));
     }
 
     public function pemeriksaanBerat($id, Request $request)
@@ -161,21 +184,21 @@ class PemeriksaanController extends Controller
         $today = date('Y-m-d');
 
         //update data status pemeriksaan menjadi 2 (status pemeriksaan berat)
-        $pemeriksaan->status_pemeriksaan = $request->status_pemeriksaan;
+        $pemeriksaan->status_pemeriksaan = 2;
         //update data status menjadi 5 (pemeriksaan offline)
         $pemeriksaan->status = 5;
 
         $pemeriksaan->save();
 
         Antrian::create([
-            "tanggal" => $today,
+            "tanggal" => $request->tanggal,
             "antrian" => $request->antrian,
             "id_pemeriksaan" => $pemeriksaan->id,
             "id_poli" => $pemeriksaan->id_poli,
             "status" => 1,
         ]);
 
-        return redirect("/pemeriksaan")->with('success', 'data telah di approve!, silahkan lihat nomor antrian!');
+        return redirect("/pemeriksaan_berat")->with('success', 'data telah di approve!, silahkan lihat nomor antrian!');
     }
 
 
@@ -191,10 +214,10 @@ class PemeriksaanController extends Controller
         //update pemeriksaan
         $pemeriksaan->save();
 
-        return redirect('/pemeriksaan')->with('success', 'status kirim obat berhasil !');
+        return redirect('/pemeriksaan_ringan')->with('success', 'status kirim obat berhasil !');
     }
 
-    //kirim obat
+    //selesai
     public function selesai($id)
     {
         //data pemeriksaan berdasarkan id Pemeriksaan
@@ -206,7 +229,7 @@ class PemeriksaanController extends Controller
         //update pemeriksaan
         $pemeriksaan->save();
 
-        return redirect('/pemeriksaan')->with('success', 'pemeriksaan selesai !');
+        return redirect('/pemeriksaan_ringan')->with('success', 'pemeriksaan selesai !');
     }
 
     //batalkan pemeriksaan
@@ -224,30 +247,60 @@ class PemeriksaanController extends Controller
         //update data pemeriksaan
         $pemeriksaan->save();
 
-        return redirect('/pemeriksaan')->with('danger','Pemeriksaaan Batal !');
+        return redirect('/pemeriksaan_ringan')->with('danger','Pemeriksaaan Batal !');
     }
 
     //controller API
 
+    //view all pemeriksaan for admin
+    public function viewAllPemeriksaan()
+    {
+        $pemeriksaan = Pemeriksaan::all();
+
+        return response()->json([
+            "status" => 200,
+            "data" => compact('pemeriksaan'),
+        ], 200);
+    }
+
+    public function updatePoliPemeriksaan(Request $request, $id)
+    {
+        $validation = Validator::make($request->all(), [
+            'id_poli' => ['required'], 
+        ]);
+
+        if ($validation->fails()) {
+            return response()->json([
+                'status' => 401,
+                'description' => 'Error !',
+                'data' => $validation->errors(),
+            ]);
+        }
+        else {
+            $pemeriksaan = Pemeriksaan::find($id);
+
+            $pemeriksaan->id_poli = $request->id_poli;
+
+            $pemeriksaan->save();
+
+            return response()->json([
+                'status' => 200,
+                'description' => 'berhasil update poli pemeriksaan!',
+            ]);
+        }
+    }
+
     //view pemeriksaan by id pasien
     public function viewPemeriksaan($id)
     {
-        //jika data pemeriksaan berdasarkan id pasien tersedia
-        if(Pemeriksaan::where('id_pasien', $id)->exists()){
-            //data pemeriksaan berdasarkan id pasien
-            $pemeriksaan = Pemeriksaan::where('id_pasien', $id)->get();
+        //data pemeriksaan berdasarkan id pasien
+        $pemeriksaan = Pemeriksaan::with('pasien')
+        ->where('id_pasien', $id)->orderBy('created_at', 'DESC')->get();
 
-            return response()->json([
-                "status" => 200,
-                "data" => compact('pemeriksaan'),
-            ], 200);
-        }
-        else{
-            return response()->json([
-                "status" => 404,
-                "message" => "pemeriksaan not found"
-            ], 200);
-        }
+        return response()->json([
+            "status" => 200,
+            "data" => compact('pemeriksaan'),
+        ], 200);
     }
 
     // API
@@ -255,15 +308,10 @@ class PemeriksaanController extends Controller
     public function addPemeriksaan(Request $request)
     {
         $validation = Validator::make($request->all(), [
-            'nama' => ['required'],
-            'no_hp' => ['required', 'unique:pasien', 'max:255'], 
-            'alamat' => ['required', 'max:255'], 
-            'jenis_kelamin' => ['required', 'numeric'], 
-            'berat_badan' => ['required', 'numeric'], 
-            'tinggi_badan' => ['required', 'numeric'],
-            'tgl_lahir' => ['required'], 
-            'email' => ['required', 'unique:pasien', 'email', 'string'], 
-            'password' => ['required'],
+            'tanggal' => ['required'],
+            'id_pasien' => ['required'], 
+            'keluhan' => ['required', 'max:255'], 
+            'id_pasien' => ['required', 'numeric'], 
         ]);
 
         if ($validation->fails()) {
@@ -290,6 +338,18 @@ class PemeriksaanController extends Controller
             "status" => 200,
             "message" => "Pemeriksaan created !"
         ], 200);
+    }
+
+    //detail pemeriksaan
+    public function detailPemeriksaan($id_pemeriksaan)
+    {
+        $pemeriksaan = Pemeriksaan::with('pasien')->with('antrian')->find($id_pemeriksaan);
+
+        return response()->json([
+            'status' => 200,
+            'description' => 'ok', 
+            'data' => compact('pemeriksaan')
+        ]);
     }
 
     //delete pemeriksaan
